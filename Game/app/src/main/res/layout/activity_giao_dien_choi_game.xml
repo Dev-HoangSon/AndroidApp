@@ -8,16 +8,73 @@
     android:background="@drawable/bggame">
 
     <Button
+        android:id="@+id/btn_diem_so2"
+        android:layout_width="140dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reward"
+        android:drawableLeft="@drawable/icon_kc"
+        android:drawableRight="@drawable/ic_them"
+        android:paddingLeft="25dp"
+        android:paddingRight="10dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/img_5050"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toEndOf="@+id/img_xoay_choi"
+        app:layout_constraintTop_toBottomOf="@+id/btn_diem_so" />
+
+    <ImageView
+        android:id="@+id/mang5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/mang4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icn_luotchoi" />
+
+    <ImageView
+        android:id="@+id/mang4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/mang3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icn_luotchoi" />
+
+    <ImageView
+        android:id="@+id/mang3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/mang2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icn_luotchoi" />
+
+    <ImageView
+        android:id="@+id/mang2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/mang1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icn_luotchoi" />
+
+    <Button
         android:id="@+id/btn_D"
         android:layout_width="253dp"
         android:layout_height="40dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_khungtraloi"
         android:drawableLeft="@drawable/txt_d"
         android:paddingLeft="40dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        app:layout_constraintEnd_toStartOf="@+id/img_goinguoithan"
         app:layout_constraintStart_toEndOf="@+id/btn_C"
         app:layout_constraintTop_toBottomOf="@+id/btn_B" />
 
@@ -25,14 +82,14 @@
         android:id="@+id/btn_C"
         android:layout_width="253dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_khungtraloi"
         android:drawableLeft="@drawable/txt_c"
         android:paddingLeft="40dp"
-        android:textStyle="bold"
         android:textColor="#fff"
-        app:layout_constraintStart_toEndOf="@+id/btn_cau_3"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/btn_lv_4"
         app:layout_constraintTop_toBottomOf="@+id/btn_A" />
 
     <Button
@@ -45,7 +102,7 @@
         android:paddingLeft="40dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        app:layout_constraintEnd_toStartOf="@+id/img_goinguoithan"
         app:layout_constraintStart_toEndOf="@+id/btn_A"
         app:layout_constraintTop_toBottomOf="@+id/btn_noidung" />
 
@@ -56,10 +113,10 @@
         android:layout_marginEnd="4dp"
         android:src="@drawable/help_tuvan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintTop_toBottomOf="@+id/img_goinguoithan" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/img_goinguoithan"
         android:layout_width="66dp"
         android:layout_height="81dp"
         android:layout_marginEnd="4dp"
@@ -77,126 +134,72 @@
         app:layout_constraintTop_toBottomOf="@+id/img_5050" />
 
     <Button
-        android:id="@+id/btn_cau_4"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_5" />
-
-    <Button
-        android:id="@+id/btn_cau_3"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_4" />
-
-    <Button
-        android:id="@+id/btn_cau_2"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_3" />
-
-    <Button
-        android:id="@+id/btn_cau_1"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_2" />
-
-    <Button
-        android:id="@+id/btn_cau_5"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/btn_lv_4"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/reward_datbiet"
         android:textColor="#fff"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_6" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_lv_3" />
 
     <Button
-        android:id="@+id/btn_cau_6"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_7" />
-
-    <Button
-        android:id="@+id/btn_cau_7"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_8" />
-
-    <Button
-        android:id="@+id/btn_cau_8"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_9" />
-
-    <Button
-        android:id="@+id/btn_cau_9"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/reward"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cau_10" />
-
-    <Button
-        android:id="@+id/btn_cau_10"
-        android:layout_width="142dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="8dp"
+        android:id="@+id/btn_lv_3"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/reward_datbiet"
         android:textColor="#fff"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_giay" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_lv_2" />
+
+    <Button
+        android:id="@+id/btn_lv_2"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/reward_datbiet"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_lv_1" />
+
+    <Button
+        android:id="@+id/btn_lv_1"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/reward_datbiet"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mang1" />
+
+    <Button
+        android:id="@+id/btn_diem_so"
+        android:layout_width="140dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/reward"
+        android:drawableLeft="@drawable/ic_noti"
+        android:drawableRight="@drawable/ic_them"
+        android:paddingLeft="25dp"
+        android:paddingRight="10dp"
+        android:textColor="#0E0D0D"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/img_5050"
+        app:layout_constraintStart_toEndOf="@+id/img_xoay_choi"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_xoay_choi"
@@ -232,14 +235,14 @@
         android:id="@+id/btn_A"
         android:layout_width="253dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textStyle="bold"
         android:background="@drawable/btn_khungtraloi"
         android:drawableLeft="@drawable/txt_a"
         android:paddingLeft="40dp"
         android:textColor="#fff"
-        app:layout_constraintStart_toEndOf="@+id/btn_cau_3"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/btn_lv_4"
         app:layout_constraintTop_toBottomOf="@+id/btn_noidung" />
 
     <Button
@@ -260,14 +263,17 @@
         android:id="@+id/time_giay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
         android:text="20"
         android:textColor="#fff"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_noidung"
+        app:layout_constraintEnd_toStartOf="@+id/img_xoay_choi"
+        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintStart_toEndOf="@+id/btn_lv_2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
 
     <Button
         android:id="@+id/btn_noidung"
@@ -281,7 +287,27 @@
         android:textColor="#fff"
         app:layout_constraintEnd_toStartOf="@+id/img_ykienkhangia"
         app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toEndOf="@+id/btn_cau_5"
+        app:layout_constraintStart_toEndOf="@+id/btn_lv_4"
         app:layout_constraintTop_toBottomOf="@+id/img_xoay_choi" />
+
+    <ImageView
+        android:id="@+id/mang1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icn_luotchoi" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="66dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_shop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
