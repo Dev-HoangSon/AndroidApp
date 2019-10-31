@@ -36,19 +36,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 
 public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
-    ImageView img_xoay, img5050, img_ykienkhangia;
-    Button btn_cau_1,btn_cau_2,btn_cau_3,btn_cau_4,btn_cau_5,btn_cau_6,btn_cau_7,btn_cau_8,btn_cau_9,btn_cau_10;
-    Button btn_A , btn_B , btn_C , btn_D , btn_sansang , btn_noidungcauhoi;
+    private static  final long START_TIME_IN_MILLIS = 20000;
+    private CountDownTimer countDownTimerTime;
+    private boolean mTimerRunning;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    ImageView img_xoay, img5050, img_ykienkhangia, img_GoiNguoithan;
+    Button btn_A , btn_B , btn_C , btn_D , btn_sansang , btn_noidungcauhoi, btn_diem_so;
+    Button btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4;
     TextView txt ;
     ArrayList<Linh_Vuc>  linh_vucArrayList = new ArrayList<>();
-   public static  String LinhVucDuocChon = "" , LinhVucChoi = "";
-    String[] arr={"200","300","500","1000","2000","3500","6000","9000","13000","20000"};
+    public static  String LinhVucDuocChon = "" , LinhVucChoi = "";
     String id_cauhoi = "";
     String DapAnDung = "" ;
+    int Tongdiem = 0;
     boolean key = true , keyKQ = false;
     int SoDapAnChinhXac = 0 , Vitridapanchinhxac = 0 , giatri5050so1 = 0 , giattri5050so2 = 0;
     @Override
@@ -62,43 +67,34 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
        }
 
         LoadGiaoDien();
-        Click_A();
-        Click_B();
-        Click_C();
-        Click_D();
-        SanSang();
-        _50and50();
-        HoiyKienKhanGia();
+            Linh_Vuc_1();
+            Linh_Vuc_2();
+            Linh_Vuc_3();
+            Linh_Vuc_4();
+            Click_A();
+            Click_B();
+            Click_C();
+            Click_D();
+            SanSang();
+            _50and50();
+            HoiyKienKhanGia();
+             GoiDienNguoiThan();
     }
 
     private void LoadDiemThuog(){
-        btn_cau_1 = findViewById(R.id.btn_cau_1);
-        btn_cau_2 = findViewById(R.id.btn_cau_2);
-        btn_cau_3 = findViewById(R.id.btn_cau_3);
-        btn_cau_4 = findViewById(R.id.btn_cau_4);
-        btn_cau_5 = findViewById(R.id.btn_cau_5);
-        btn_cau_6 = findViewById(R.id.btn_cau_6);
-        btn_cau_7 = findViewById(R.id.btn_cau_7);
-        btn_cau_8 = findViewById(R.id.btn_cau_8);
-        btn_cau_9 = findViewById(R.id.btn_cau_9);
-        btn_cau_10 = findViewById(R.id.btn_cau_10);
 
 
-        btn_cau_1.setText(arr[0]);
-        btn_cau_2.setText(arr[1]);
-        btn_cau_3.setText(arr[2]);
-        btn_cau_4.setText(arr[3]);
-        btn_cau_5.setText(arr[4]);
-        btn_cau_6.setText(arr[5]);
-        btn_cau_7.setText(arr[6]);
-        btn_cau_8.setText(arr[7]);
-        btn_cau_9.setText(arr[8]);
-        btn_cau_10.setText(arr[9]);
     }
 
     public void LoadGiaoDien(){
+        btn_lv_1 = findViewById(R.id.btn_lv_1);
+        btn_lv_2 = findViewById(R.id.btn_lv_2);
+        btn_lv_3 = findViewById(R.id.btn_lv_3);
+        btn_lv_4 = findViewById(R.id.btn_lv_4);
         txt = findViewById(R.id.time_giay);
+        btn_diem_so = findViewById(R.id.btn_diem_so);
         img5050 = findViewById(R.id.img_5050);
+        img_GoiNguoithan = findViewById(R.id.img_goinguoithan);
         img_ykienkhangia = findViewById(R.id.img_ykienkhangia);
         btn_noidungcauhoi = findViewById(R.id.btn_noidung);
         btn_A = findViewById(R.id.btn_A);
@@ -109,56 +105,150 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_sansang.setEnabled(false);
         img5050.setEnabled(false);
         img_ykienkhangia.setEnabled(false);
+        img_GoiNguoithan.setEnabled(false);
         img_xoay = findViewById(R.id.img_xoay_choi);
         txt.setEnabled(false);
+        set_bat_laiketquaBtn(false);
         LoadDiemThuog();
       //  MediaPlayer  mediaPlayer = MediaPlayer.create(this,R.raw.start_1);
         //mediaPlayer.start();
         Animation animationalphaxoay = AnimationUtils.loadAnimation(GiaoDienChoiGame.this,R.anim.img_xoay);
         img_xoay.startAnimation(animationalphaxoay);
         // private static final String BASE_URL =  "http://10.0.2.2:8001/api/linh-vuc/"; // AVD
-        GetJson("http://10.0.3.2:8001/api/linh-vuc/");
+        GetJson("http://10.0.3.2:8000/api/linh-vuc/");
     }
 
+    private void setTextbuton(){
+        btn_noidungcauhoi.setText("Chọn lĩnh vực");
+        btn_A.setText("");
+        btn_B.setText("");
+        btn_C.setText("");
+        btn_D.setText("");
+    }
 
-    private void set_laiketquaBtn(){
-        btn_A.setEnabled(true);
-        btn_B.setEnabled(true);
-        btn_C.setEnabled(true);
-        btn_D.setEnabled(true);
+    private void set_bat_laiketquaBtn(boolean bool){
+        btn_A.setEnabled(bool);
+        btn_B.setEnabled(bool);
+        btn_C.setEnabled(bool);
+        btn_D.setEnabled(bool);
+    }
+
+    private  void tat_bat_cicklinhvuc(boolean bool){
+        btn_lv_1.setEnabled(bool);
+        btn_lv_2.setEnabled(bool);
+        btn_lv_3.setEnabled(bool);
+        btn_lv_4.setEnabled(bool);
+    }
+
+    private  void setMauLinhvuc(){
+        btn_lv_1.setBackgroundResource(R.drawable.reward_datbiet);
+        btn_lv_2.setBackgroundResource(R.drawable.reward_datbiet);
+        btn_lv_3.setBackgroundResource(R.drawable.reward_datbiet);
+        btn_lv_4.setBackgroundResource(R.drawable.reward_datbiet);
     }
     private void Finish(Button btn){
+        LinhVucDuocChon = "";
+        LinhVucChoi="";
         Hienthilainut5050();
+        setTextbuton();
         keyKQ = true;
-      //  LoadThoiGian20s(21000,1000);
-       // txt.setText(""+20);
-        getSupportLoaderManager().restartLoader(0, null, GiaoDienChoiGame.this);
+        setMauLinhvuc();
+        tat_bat_cicklinhvuc(true);
         btn.setBackgroundResource(R.drawable.btn_khungtraloi);
-        SoDapAnChinhXac++;
-        TangDiemSo(SoDapAnChinhXac);
-        set_laiketquaBtn();
+        btn_diem_so.setText(""+TangDiemSo());
+    }
+    private  void Clickchonlinhvuc(Button btn , int thutu){
+            CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    tat_bat_cicklinhvuc(false);
+                    btn.setBackgroundResource(R.drawable.reward_chinhxac);
+                }
+                @Override
+                public void onFinish() {
+                    btn_sansang.setEnabled(true);
+                    if(LinhVucDuocChon == ""){
+                        LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
+                        LinhVucChoi = LinhVucDuocChon;
+                    }
+                    if(btn_sansang.getVisibility() == View.INVISIBLE){
+                        btn.setBackgroundResource(R.drawable.reward_datbiet);
+                        btn_sansang.setVisibility(View.VISIBLE);
+                    }
+                }
+            }.start();
+    }
+    private void Linh_Vuc_1(){
+            btn_lv_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+                btn_lv_2.setEnabled(false);
+                btn_lv_3.setEnabled(false);
+                btn_lv_4.setEnabled(false);
+                Clickchonlinhvuc(btn_lv_1,0);
+            }
+        });
+    }
+
+    private void Linh_Vuc_2(){
+        btn_lv_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+                btn_lv_1.setEnabled(false);
+                btn_lv_3.setEnabled(false);
+                btn_lv_4.setEnabled(false);
+                Clickchonlinhvuc(btn_lv_2,1);
+            }
+        });
+    }
+
+    private void Linh_Vuc_3(){
+        btn_lv_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+                btn_lv_2.setEnabled(false);
+                btn_lv_1.setEnabled(false);
+                btn_lv_4.setEnabled(false);
+                Clickchonlinhvuc(btn_lv_3,2);
+            }
+        });
+    }
+
+    private void Linh_Vuc_4(){
+        btn_lv_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+                btn_lv_2.setEnabled(false);
+                btn_lv_3.setEnabled(false);
+                btn_lv_1.setEnabled(false);
+                Clickchonlinhvuc(btn_lv_4,3);
+            }
+        });
     }
     private void Click_A(){
         btn_A.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
                 CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         btn_A.setBackgroundResource(R.drawable.btn_traloi_sai);
+                        set_bat_laiketquaBtn(false);
                     }
                     @Override
                     public void onFinish() {
                         btn_B.setEnabled(false);
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
-                        btn_sansang.setEnabled(true);
-                        if(LinhVucDuocChon == ""){
-                            LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(0).getId());
-                            LinhVucChoi = LinhVucDuocChon;
-                        }else{
-                            LinhVucDuocChon = LinhVucChoi;
-                        }
                         if(btn_sansang.getVisibility() == View.INVISIBLE){
                             if(KiemTraDapAn(btn_A.getText().toString(),DapAnDung)){
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000,1000) {
@@ -178,7 +268,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         }
                     }
                 }.start();
-
             }
         });
     }
@@ -186,23 +275,22 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
                 CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         btn_B.setBackgroundResource(R.drawable.btn_traloi_sai);
+                        set_bat_laiketquaBtn(false);
                     }
                     @Override
                     public void onFinish() {
                         btn_A.setEnabled(false);
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
-                        btn_sansang.setEnabled(true);
-                        if(LinhVucDuocChon == ""){
-                            LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(1).getId());
-                            LinhVucChoi = LinhVucDuocChon;
-                        }else{
-                            LinhVucDuocChon = LinhVucChoi;
-                        }
                         if(btn_sansang.getVisibility() == View.INVISIBLE){
                             if(KiemTraDapAn(btn_B.getText().toString(),DapAnDung)){
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000,1000) {
@@ -222,7 +310,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         }
                     }
                 }.start();
-
             }
         });
     }
@@ -230,23 +317,22 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_C.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
                 CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         btn_C.setBackgroundResource(R.drawable.btn_traloi_sai);
+                        set_bat_laiketquaBtn(false);
                     }
                     @Override
                     public void onFinish() {
                         btn_A.setEnabled(false);
                         btn_B.setEnabled(false);
                         btn_D.setEnabled(false);
-                        btn_sansang.setEnabled(true);
-                        if(LinhVucDuocChon == ""){
-                            LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(2).getId());
-                            LinhVucChoi = LinhVucDuocChon;
-                        }else{
-                            LinhVucDuocChon = LinhVucChoi;
-                        }
                         if(btn_sansang.getVisibility() == View.INVISIBLE){
                             if(KiemTraDapAn(btn_C.getText().toString(),DapAnDung)){
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000,1000) {
@@ -272,29 +358,28 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_D.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
                 CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         btn_D.setBackgroundResource(R.drawable.btn_traloi_sai);
+                        set_bat_laiketquaBtn(false);
                     }
                     @Override
                     public void onFinish() {
                         btn_A.setEnabled(false);
                         btn_B.setEnabled(false);
                         btn_C.setEnabled(false);
-                        btn_sansang.setEnabled(true);
-                        if(LinhVucDuocChon == ""){
-                            LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(3).getId());
-                            LinhVucChoi = LinhVucDuocChon;
-                        }else{
-                            LinhVucDuocChon = LinhVucChoi;
-                        }
                         if(btn_sansang.getVisibility() == View.INVISIBLE){
                             if(KiemTraDapAn(btn_D.getText().toString(),DapAnDung)){
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000,1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
-                                        btn_C.setBackgroundResource(R.drawable.btn_traloi_dung);
+                                        btn_D.setBackgroundResource(R.drawable.btn_traloi_dung);
                                     }
                                     @Override
                                     public void onFinish() {
@@ -307,10 +392,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         }
                     }
                 }.start();
-
             }
-
-
         });
     }
 
@@ -321,7 +403,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonArray = response.getJSONArray("data");
-
                     for(int i=0;i<=3;i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id = jsonObject.getString("id");
@@ -329,10 +410,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         linh_vucArrayList.add(new Linh_Vuc(Integer.valueOf(id),ten));
                     }
                     if(linh_vucArrayList.size() != 0){
-                        btn_A.setText(String.valueOf(linh_vucArrayList.get(0).getTenlinhVuc()));
-                        btn_B.setText(String.valueOf(linh_vucArrayList.get(1).getTenlinhVuc()));
-                        btn_C.setText(String.valueOf(linh_vucArrayList.get(2).getTenlinhVuc()));
-                        btn_D.setText(String.valueOf(linh_vucArrayList.get(3).getTenlinhVuc()));
+                        btn_lv_1.setText(String.valueOf(linh_vucArrayList.get(0).getTenlinhVuc()));
+                        btn_lv_2.setText(String.valueOf(linh_vucArrayList.get(1).getTenlinhVuc()));
+                        btn_lv_3.setText(String.valueOf(linh_vucArrayList.get(2).getTenlinhVuc()));
+                        btn_lv_4.setText(String.valueOf(linh_vucArrayList.get(3).getTenlinhVuc()));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -350,43 +431,55 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         Toast.makeText(GiaoDienChoiGame.this,"Thua chưa chọn đáp án",Toast.LENGTH_LONG).show();
     }
 
-    private void LoadThoiGian20s(int tongtime , int giay){
-        CountDownTimer countDownTimer = new CountDownTimer(tongtime,giay) {
+    private void startTimer() {
+        countDownTimerTime = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int Time = Integer.valueOf(txt.getText().toString());
-                    Time--;
-                    txt.setText(String.valueOf(Time));
-                    if(keyKQ == true){
-                        cancel();
-                        keyKQ = false;
-                    }
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
             }
+
             @Override
             public void onFinish() {
-                LoadThua();
+              Toast.makeText(GiaoDienChoiGame.this,"Xong",Toast.LENGTH_LONG).show();
             }
         }.start();
+        mTimerRunning = true;
     }
+    private void pauseTimer() {
+        countDownTimerTime.cancel();
+        mTimerRunning = false;
+    }
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        updateCountDownText();
+    }
+
+    private void updateCountDownText() {
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d", seconds);
+
+        txt.setText(timeLeftFormatted);
+    }
+
     private void SanSang(){
         btn_sansang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(LinhVucDuocChon != null){
-                //    LoadThoiGian20s(21000,1000);
                     btn_A.setBackgroundResource(R.drawable.btn_khungtraloi);
                     btn_B.setBackgroundResource(R.drawable.btn_khungtraloi);
                     btn_C.setBackgroundResource(R.drawable.btn_khungtraloi);
                     btn_D.setBackgroundResource(R.drawable.btn_khungtraloi);
-                    btn_A.setEnabled(true);
-                    btn_B.setEnabled(true);
-                    btn_C.setEnabled(true);
-                    btn_D.setEnabled(true);
+                    set_bat_laiketquaBtn(true);
                     img5050.setEnabled(true);
                     img_ykienkhangia.setEnabled(true);
+                    img_GoiNguoithan.setEnabled(true);
                     btn_sansang.setVisibility(View.INVISIBLE);
                     txt.setEnabled(true);
                     getSupportLoaderManager().restartLoader(0, null, GiaoDienChoiGame.this);
+                    startTimer();
                 }
             }
         });
@@ -419,20 +512,13 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
-    private void TangDiemSo(int i){
-        switch (i){
-            case 1: btn_cau_1.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 2: btn_cau_2.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 3: btn_cau_3.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 4: btn_cau_4.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 5: btn_cau_5.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 6: btn_cau_6.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 7: btn_cau_7.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 8: btn_cau_8.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 9: btn_cau_9.setBackgroundResource(R.drawable.reward_chinhxac);break;
-            case 10: btn_cau_10.setBackgroundResource(R.drawable.reward_chinhxac);
-                Toast.makeText(GiaoDienChoiGame.this,"Bạn đã chiến thắng",Toast.LENGTH_LONG).show();break;
-        }
+    private int TangDiemSo(){
+        Random random = new Random();
+        int Rand = random.nextInt(5);
+        int Diem = Integer.valueOf(txt.getText().toString());
+        int TongDiem1cau =  (Diem * Rand);
+        Tongdiem += TongDiem1cau;
+        return Tongdiem;
     }
 
     private boolean KiemTraDapAn(String dapantraloi , String ketqua){
@@ -629,6 +715,32 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         setDoCao(imgC , C);
         setDoCao(imgD , D);
         Button btn_dong = dialog.findViewById(R.id.btn_dong);
+        btn_dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+    }
+
+    private void GoiDienNguoiThan(){
+        img_GoiNguoithan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(img5050.getVisibility() == View.INVISIBLE){
+                    dialog_goinguoithan(DapAnDung);
+                }
+                img_GoiNguoithan.setVisibility(View.INVISIBLE);
+            }
+        });
+    }private void dialog_goinguoithan(String dapan){
+        Dialog dialog = new Dialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.custom_dialog_goingoithan);
+        Button btn_dong = dialog.findViewById(R.id.btn_dong);
+        TextView txtKQ = dialog.findViewById(R.id.txtDapannguoithan);
+        txtKQ.setText(""+DapAnDung);
         btn_dong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
