@@ -13,10 +13,9 @@ import java.net.URL;
 
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
-    private static final String BASE_URL =  "http://10.0.3.2:8000/api/cau-hoi/"; // Genymotion
     // private static final String BASE_URL =  "http://10.0.2.2:8000/api/"; // AVD
 
-    static String getJSONData(String uri, String method) {
+    static String getJSONData(String uri, String method , String BASE_URL) {
         HttpURLConnection urlConnection = null;
         String jsonString = null;
         Uri builtURI = Uri.parse(BASE_URL + uri).buildUpon().build();
@@ -43,7 +42,7 @@ public class NetworkUtils {
         return jsonString;
     }
 
-    static String getJSONData(String uri, String method, Object[] nameParams, Object[] valueParams) {
+    static String getJSONData(String uri, String method, Object[] nameParams, Object[] valueParams,String BASE_URL) {
         HttpURLConnection urlConnection = null;
         String jsonString = null;
         Uri.Builder builder =  Uri.parse(BASE_URL + uri).buildUpon();

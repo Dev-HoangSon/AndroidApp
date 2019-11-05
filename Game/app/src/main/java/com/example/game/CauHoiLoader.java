@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
 public class CauHoiLoader extends AsyncTaskLoader<String> {
-
+    private static final String BASE_URL_CAU_HOI =  "https://hoangsonapp.000webhostapp.com/api/cau-hoi/"; // Genymotion
     public CauHoiLoader(@NonNull Context context) {
         super(context);
     }
@@ -22,6 +22,6 @@ public class CauHoiLoader extends AsyncTaskLoader<String> {
     @Override
     public String loadInBackground() {
         String id = GiaoDienChoiGame.LinhVucDuocChon;
-        return NetworkUtils.getJSONData(id,"GET");
+        return NetworkUtils.getJSONData(id,"GET",BASE_URL_CAU_HOI);
     }
 }
