@@ -50,12 +50,16 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 
+
 public class MainActivity extends Activity {
+
+
 
     private Object NameNotFoundException;
     ProfilePictureView profilePictureView;
@@ -79,6 +83,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -107,7 +113,7 @@ public class MainActivity extends Activity {
 
 
 
-        MediaPlayer  mediaPlayer = MediaPlayer.create(this,R.raw.nhac_nen);
+        MediaPlayer  mediaPlayer = MediaPlayer.create(this,R.raw.bgwarm);
         GiaoDien(mediaPlayer);
         Tat_Nhac(mediaPlayer);
         DangNhap(mediaPlayer);
@@ -154,7 +160,13 @@ public class MainActivity extends Activity {
         icon_share = findViewById(R.id.icon_share);
         img_bangxephang = findViewById(R.id.img_bangxephang);
         Anim_DangNhapAnhDangKy();
-       // mediaPlayer.start();
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
 
         Animation animationalpha = AnimationUtils.loadAnimation(MainActivity.this,R.anim.img_alpha);
         img_led.startAnimation(animationalpha);
@@ -254,7 +266,7 @@ public class MainActivity extends Activity {
                     }else{
                         try {
                             mediaPlayer.prepare();
-                           // mediaPlayer.start();
+                            mediaPlayer.start();
                         btn_volume_on.setImageResource(R.drawable.volume_on);
                         Amthanh = true;
                     } catch (IOException e) {
@@ -291,6 +303,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 startActivityForResult(intent,requestcode);
                 mediaPlayer.stop();
             }
