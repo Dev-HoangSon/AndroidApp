@@ -117,12 +117,10 @@ public class MainActivity extends Activity {
         GiaoDien(mediaPlayer);
         Tat_Nhac(mediaPlayer);
         DangNhap(mediaPlayer);
-        DangKy(mediaPlayer);
         ChoiGame(mediaPlayer);
         btnDangXuat.setVisibility(View.INVISIBLE);
         loginButton.setReadPermissions(Arrays.asList("public_profile","email"));
         btndangnhap.setVisibility(View.VISIBLE);
-        btndangky.setVisibility(View.VISIBLE);
         setLogin_Button();
         setLogout_Button();
         btndangnhapgoole.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +152,6 @@ public class MainActivity extends Activity {
         txtname = findViewById(R.id.name);
         btndangnhap = findViewById(R.id.btndangnhap);
         btnchoingay = findViewById(R.id.btnplaynow);
-        btndangky = findViewById(R.id.btndangky);
         btn_volume_on = findViewById(R.id.btn_volume_on);
         img_led = findViewById(R.id.img_led);
         icon_share = findViewById(R.id.icon_share);
@@ -201,7 +198,6 @@ public class MainActivity extends Activity {
      private  void  Anim_DangNhapAnhDangKy(){
          Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
          btndangnhap.startAnimation(animationscale);
-         btndangky.startAnimation(animationscale);
     }
 
     private void setLogin_Button() {
@@ -267,6 +263,7 @@ public class MainActivity extends Activity {
                         try {
                             mediaPlayer.prepare();
                             mediaPlayer.start();
+                            mediaPlayer.release();
                         btn_volume_on.setImageResource(R.drawable.volume_on);
                         Amthanh = true;
                     } catch (IOException e) {
@@ -288,24 +285,19 @@ public class MainActivity extends Activity {
             }
         });
     }
-    public void DangKy(MediaPlayer mediaPlayer){
-        btndangky.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,GiaoDienDangKy.class);
-                startActivityForResult(intent,requestcode);
-                mediaPlayer.stop();
-            }
-        });
-    }
+
     public void ChoiGame(MediaPlayer mediaPlayer){
         btnchoingay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-                startActivityForResult(intent,requestcode);
-                mediaPlayer.stop();
+                try {
+                    Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
+                    startActivityForResult(intent,requestcode);
+                    mediaPlayer.stop();
+                }catch (Exception Ex){
+                    Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
+                    startActivityForResult(intent,requestcode);
+                }
             }
         });
     }
@@ -335,6 +327,7 @@ public class MainActivity extends Activity {
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
