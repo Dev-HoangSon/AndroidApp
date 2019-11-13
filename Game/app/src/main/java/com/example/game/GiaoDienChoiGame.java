@@ -402,7 +402,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_A.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("A", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -451,7 +451,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_B.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("C", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -500,7 +500,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_B.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_C.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("C", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -548,7 +548,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_B.setEnabled(false);
                         btn_C.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_D.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("D", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
