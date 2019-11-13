@@ -17,7 +17,8 @@
         android:layout_gravity="center_horizontal"
         app:layout_constraintBottom_toTopOf="@+id/img_bangxephang"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        app:layout_constraintVertical_bias="0.196" />
 
     <TextView
         android:id="@+id/textView7"
@@ -54,15 +55,15 @@
         android:layout_marginStart="4dp"
         app:layout_constraintBottom_toTopOf="@+id/img_bangxephang"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btndangky"
+        app:layout_constraintTop_toBottomOf="@+id/dangxuat"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/dangxuat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_buton"
-        android:text="Đăng xuất"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_signout"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="15dp"
@@ -86,27 +87,11 @@
         app:layout_constraintTop_toBottomOf="@+id/friendProfilePictureview" />
 
     <Button
-        android:id="@+id/btndangky"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/custom_buton"
-        android:text="Đăng ký"
-        android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btndangnhap"
-        app:layout_constraintVertical_bias="0.061" />
-
-    <Button
         android:id="@+id/btndangnhap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_buton"
-        android:text="Đăng nhập"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_signin"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="15dp"
@@ -177,13 +162,13 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/custom_tetview_dangnhap"
         android:padding="10dp"
         android:text="Username"
         android:textColor="#fff"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dangxuat"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

@@ -8,7 +8,7 @@
     android:background="@drawable/bggame">
 
     <Button
-        android:id="@+id/btn_diem_so2"
+        android:id="@+id/btn_kimcuong"
         android:layout_width="140dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
@@ -310,7 +310,7 @@
         app:srcCompat="@drawable/icn_luotchoi" />
 
     <ImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/img_cua_hang"
         android:layout_width="66dp"
         android:layout_height="81dp"
         android:layout_marginStart="16dp"

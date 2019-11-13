@@ -22,7 +22,6 @@ public class AsyntalkLinhVuc extends AsyncTask<String , Void , String> {
     Button btn2;
     Button btn3;
     Button btn4;
-    // ArrayList<Linh_Vuc> linh_vucArrayList = new ArrayList<>();
 
     public AsyntalkLinhVuc(Button btn1, Button btn2, Button btn3, Button btn4) {
         this.btn1 = btn1;
