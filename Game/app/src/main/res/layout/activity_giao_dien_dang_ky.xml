@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwword"></EditText>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_dangky"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -96,7 +96,7 @@
         android:textColor="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/button"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/btn_dangky"></TextView>
 
     <View
         android:id="@+id/footer_line"
@@ -119,24 +119,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/footer_line"></TextView>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Đăng nhập bằng Facebook"
-        android:textAllCaps="false"
-        android:textColor="@color/login_from_details"
-        app:layout_constraintBottom_toTopOf="@+id/footer_line"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/passwword"></TextView>
-
     <View
         android:id="@+id/line1"
         android:layout_width="120dp"
         android:layout_height="1dp"
         android:background="@color/login_from_details_medium"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/quenmatkhau"></View>
@@ -146,26 +133,9 @@
         android:layout_width="120dp"
         android:layout_height="1dp"
         android:background="@color/login_from_details_medium"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintTop_toBottomOf="@+id/quenmatkhau"
-        app:layout_constraintVertical_bias="0.502"></View>
-
-    <TextView
-        android:id="@+id/or"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="or"
-        android:textColor="@color/login_from_details"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/line2"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toEndOf="@+id/line1"
-        app:layout_constraintTop_toBottomOf="@+id/quenmatkhau"
-        app:layout_constraintVertical_bias="0.401"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/quenmatkhau"></View>
 
     <EditText
         android:id="@+id/email"
