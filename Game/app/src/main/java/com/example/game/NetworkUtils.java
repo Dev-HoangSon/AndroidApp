@@ -10,10 +10,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
-    // private static final String BASE_URL =  "http://10.0.2.2:8000/api/"; // AVD
+    private static final String BASE_URL =  "http://10.0.2.2:8000/api/";
 
     static String getJSONData(String uri, String method , String BASE_URL) {
         HttpURLConnection urlConnection = null;
@@ -71,6 +73,42 @@ public class NetworkUtils {
         }
 
         Log.d(LOG_TAG, jsonString);
+        return jsonString;
+    }
+
+    static String doRequest (String uri, String method , HashMap<String,String> param, String token) {
+        HttpURLConnection urlConnection = null;
+        String jsonString = null;
+        Uri.Builder builder = Uri.parse(BASE_URL + uri).buildUpon();
+
+        for(Map.Entry<String,String> pa : param.entrySet())
+        {
+            builder.appendQueryParameter(pa.getKey(),pa.getValue());
+        }
+        Uri builUri = builder.build();
+        try {
+
+            URL requestURL = new URL(builUri.toString());
+            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection.setRequestMethod(method);
+            if(token != null)
+            {
+                urlConnection.setRequestProperty("Authoriration",token);
+            }
+            urlConnection.connect();
+
+            // Get the InputStream.
+            InputStream inputStream = urlConnection.getInputStream();
+            jsonString = convertToString(inputStream);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+        Log.d("TEST", jsonString);
         return jsonString;
     }
 
