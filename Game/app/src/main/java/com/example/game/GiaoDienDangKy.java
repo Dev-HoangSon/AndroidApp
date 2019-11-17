@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,10 +43,15 @@ import retrofit2.Response;
 public class GiaoDienDangKy extends Activity {
 
     ImageView imgdangky;
+    EditText _taikhoan , _matkhau , _nhaplaimatkhau , _email;
     Button btn_dangky;
     int requs = 123;
     Bitmap bitmap;
     String path = "";
+    String taikhoan="";
+    String matkhau="";
+    String nhaplaimatkhau="";
+    String email="";
     private int STORE_PERMISSION_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,32 +68,69 @@ public class GiaoDienDangKy extends Activity {
         btn_dangky.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(path);
-                String file_path = file.getAbsolutePath();
+
+                taikhoan = _taikhoan.getText().toString();
+                matkhau = _matkhau.getText().toString();
+                nhaplaimatkhau = _nhaplaimatkhau.getText().toString();
+                email = _email.getText().toString();
+
+                if(taikhoan.length() > 0 && taikhoan.length() <= 12 && matkhau.length()>0 &&nhaplaimatkhau.length()>0 && email.length()> 0){
+                    if(matkhau.equals(nhaplaimatkhau)){
+                        if(bitmap == null){
+                            Toast.makeText(GiaoDienDangKy.this,"Chưa có ảnh đại diện",Toast.LENGTH_LONG).show();
+                        }else{
+                            File file = new File(path);
+                            String file_path = file.getAbsolutePath();
 
 
-                String[] mangtenfile = file_path.split("\\.");
-                file_path = mangtenfile[0]+System.currentTimeMillis() + "."+mangtenfile[1];
-                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+                            String[] mangtenfile = file_path.split("\\.");
+                            file_path = mangtenfile[0]+System.currentTimeMillis() + "."+mangtenfile[1];
+                            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
 
-                MultipartBody.Part body = MultipartBody.Part.createFormData("uploaded_file",file_path,requestBody);
+                            MultipartBody.Part body = MultipartBody.Part.createFormData("uploaded_file",file_path,requestBody);
 
-                DataClient dataClient  = APIUtils.getData();
-                retrofit2.Call<String> callback = dataClient.UploadPhoto(body);
-                callback.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<String> call, Response<String> response) {
-                        if(response != null){
-                            String meessage = response.body();
-                            Log.d("BBB",""+meessage);
+                            DataClient dataClient  = APIUtils.getData();
+                            retrofit2.Call<String> callback = dataClient.UploadPhoto(body);
+                            callback.enqueue(new Callback<String>() {
+                                @Override
+                                public void onResponse(retrofit2.Call<String> call, Response<String> response) {
+                                    String meessage = response.body();
+                                    Log.d("BBB",""+meessage);
+                                    if(response !=null){
+
+                                        DataClient insertdata = APIUtils.getData();
+                                        Call<String>  callback = insertdata.Insertdata(taikhoan,matkhau,email,""+meessage);
+                                        callback.enqueue(new Callback<String>() {
+                                            @Override
+                                            public void onResponse(Call<String> call, Response<String> response) {
+                                                String result = response.body();
+                                                Toast.makeText(GiaoDienDangKy.this,"Đăng ký thành công",Toast.LENGTH_LONG).show();
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<String> call, Throwable t) {
+                                                Toast.makeText(GiaoDienDangKy.this,"Đăng ký thất bại",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    Log.d("AAA",t.getMessage());
+                                }
+                            });
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.d("AAA",t.getMessage());
+                    }else{
+                        Toast.makeText(GiaoDienDangKy.this,"Mật khẩu không giống nhau",Toast.LENGTH_LONG).show();
                     }
-                });
+                }else{
+                    Toast.makeText(GiaoDienDangKy.this,"Đăng ký thất bại",Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
     }
@@ -175,6 +218,10 @@ public class GiaoDienDangKy extends Activity {
 
     private void Connect(){
         imgdangky = findViewById(R.id.img);
-        btn_dangky = findViewById(R.id.btn_dangky);
+        btn_dangky = findViewById(R.id.btndangky);
+        _email = findViewById(R.id.email);
+        _taikhoan = findViewById(R.id.username);
+        _matkhau = findViewById(R.id.passwword);
+        _nhaplaimatkhau = findViewById(R.id.nhaplaimatkhau);
     }
 }
