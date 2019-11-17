@@ -52,19 +52,17 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     ImageView img_xoay, img5050, img_ykienkhangia, img_GoiNguoithan, img_tuvantaicho;
     ImageView img_nagluot_mua, img5050_mua, img_ykienkhangia_mua, img_GoiNguoithan_mua, img_tuvantaicho_mua;
     ImageView img_mang1, img_mang2, img_mang3, img_mang4, img_mang5, img_cua_hang;
-    Button btn_A, btn_B, btn_C, btn_D, btn_sansang, btn_noidungcauhoi, btn_diem_so, btn_kimcuong;
+    Button btn_A, btn_B, btn_C, btn_D, btn_sansang, btn_noidungcauhoi, btn_diem_so;
     Button btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4;
     TextView txt;
     public static ArrayList<Linh_Vuc> linh_vucArrayList = new ArrayList<>();
-    public static ArrayList<GoiGredit> goiGreditArrayList = new ArrayList<>();
     public static String LinhVucDuocChon = "", LinhVucChoi = "";
     String id_cauhoi = "";
     String DapAnDung = "";
-    int Tongdiem = 0, TongSoMang = 4, TongKc = 0;
+    int Tongdiem = 0, TongSoMang = 4;
     boolean key = true, keyKQ = false;
     int SoDapAnChinhXac = 0, Vitridapanchinhxac = 0, giatri5050so1 = 0, giattri5050so2 = 0;
     String keymp3 = "";
-    Button btn_kc_200, btn_kc_400, btn_kc_800, btn_kc_1500, btn_kc_2500, btn_kc_5000 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +90,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         GoiDienNguoiThan();
         TuVanTaiCho();
         CuaHang();
-        Mua_Kc();
 
     }
 
@@ -109,7 +106,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_lv_4 = findViewById(R.id.btn_lv_4);
         txt = findViewById(R.id.time_giay);
         btn_diem_so = findViewById(R.id.btn_diem_so);
-        btn_kimcuong = findViewById(R.id.btn_kimcuong);
         img5050 = findViewById(R.id.img_5050);
         img_GoiNguoithan = findViewById(R.id.img_goinguoithan);
         img_ykienkhangia = findViewById(R.id.img_ykienkhangia);
@@ -126,20 +122,21 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         txt.setEnabled(false);
         set_bat_laiketquaBtn(false);
         LoadDiemThuog();
-        sharedPreferences = getSharedPreferences("TongDiem", MODE_PRIVATE);
-        btn_diem_so.setText(sharedPreferences.getString("diemso", "0"));
+        sharedPreferences = getSharedPreferences("TongDiem",MODE_PRIVATE);
+        btn_diem_so.setText(sharedPreferences.getString("diemso","0"));
         Animation animationalphaxoay = AnimationUtils.loadAnimation(GiaoDienChoiGame.this, R.anim.img_xoay);
         img_xoay.startAnimation(animationalphaxoay);
         // private static final String BASE_URL =  "http://10.0.2.2:8001/api/linh-vuc/"; // AVD
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
+        if(connectivityManager !=null){
             networkInfo = connectivityManager.getActiveNetworkInfo();
         }
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8001/api/linh-vuc");
-        } else {
-            Toast.makeText(GiaoDienChoiGame.this, "Lỗi Internet", Toast.LENGTH_LONG).show();
+        if(networkInfo !=null && networkInfo.isConnected()){
+          //new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("https://hoangsonapp.000webhostapp.com/api/linh-vuc/");
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
+        }else{
+            Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -222,19 +219,21 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private void LoadLaiKhiDung() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
+        if(connectivityManager !=null){
             networkInfo = connectivityManager.getActiveNetworkInfo();
         }
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if(networkInfo !=null && networkInfo.isConnected()){
             linh_vucArrayList.clear();
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8001/api/linh-vuc");
-        } else {
-            Toast.makeText(GiaoDienChoiGame.this, "Lỗi Internet", Toast.LENGTH_LONG).show();
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
+        }else{
+            Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }
     }
 
     private void LoadThua() {
-
+        Hienthilainut5050();
+        mediaPlayerCauhoi.stop();
+        TruMangKhiChonSai();
         switch (LayVitriDapAnDung()) {
             case 1:
                 MediaPlayer mediaPlayer1 = MediaPlayer.create(GiaoDienChoiGame.this, R.raw.lose_a);
@@ -277,8 +276,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                 });
                 break;
         }
-        // Toast.makeText(GiaoDienChoiGame.this,""+LayVitriDapAnDung(),Toast.LENGTH_LONG).show();
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Random random = new Random();
         int Diemtru = random.nextInt(5) + 1;
@@ -290,35 +287,33 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             Tru = 0;
         }
         btn_diem_so.setText("" + Tongdiem);
-        editor.putString("diemso", "" + Tongdiem);
-        //Toast.makeText(GiaoDienChoiGame.this, "Bạn đã bị trừ " + Tru + " điểm và mất 1 lượt chơi", Toast.LENGTH_LONG).show();
+        editor.putString("diemso",""+Tongdiem);
+        Toast.makeText(GiaoDienChoiGame.this, "Bạn đã bị trừ " + Tru + " điểm và mất 1 lượt chơi", Toast.LENGTH_LONG).show();
         editor.commit();
-        Hienthilainut5050();
-        mediaPlayerCauhoi.stop();
-        TruMangKhiChonSai();
     }
 
     private void Clickchonlinhvuc(Button btn, int thutu, Button btnOne, Button btnTwo, Button btnThree) {
-        if (linh_vucArrayList.size() == 0) {
-            Toast.makeText(GiaoDienChoiGame.this, "Lỗi internet", Toast.LENGTH_LONG).show();
-            setMauLinhvuc();
-            return;
-        } else {
-            try {
-                btn_sansang.setEnabled(true);
-                LinhVucDuocChon = "";
-                if (LinhVucDuocChon == "") {
-                    LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
+            if(linh_vucArrayList.size() == 0){
+                Toast.makeText(GiaoDienChoiGame.this,"Lỗi internet",Toast.LENGTH_LONG).show();
+                setMauLinhvuc();
+                return;
+            }else {
+                try {
+                    btn_sansang.setEnabled(true);
+                    LinhVucDuocChon = "";
+                    if (LinhVucDuocChon == "") {
+                        LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
 
+                    }
+                    if (btn_sansang.getVisibility() == View.INVISIBLE) {
+                        btn_sansang.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception ex) {
+                    LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
+                    Toast.makeText(GiaoDienChoiGame.this, "Chơi lại đi má ơi", Toast.LENGTH_LONG).show();
                 }
-                if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                    btn_sansang.setVisibility(View.VISIBLE);
-                }
-            } catch (Exception ex) {
-                LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
-                Toast.makeText(GiaoDienChoiGame.this, "Chơi lại đi má ơi", Toast.LENGTH_LONG).show();
             }
-        }
+
 
 
         MediaPlayer mediaPlayer = MediaPlayer.create(GiaoDienChoiGame.this, R.raw.san_sang_choi_chua);
@@ -408,7 +403,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_A.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("A", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -457,7 +452,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_B.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("C", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -506,7 +501,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_B.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_C.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("C", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -554,7 +549,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_B.setEnabled(false);
                         btn_C.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn(btn_D.getText().toString(), DapAnDung)) {
+                            if (KiemTraDapAn("D", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -664,14 +659,14 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                     txt.setEnabled(true);
                     ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo networkInfo = null;
-                    if (connectivityManager != null) {
+                    if(connectivityManager !=null){
                         networkInfo = connectivityManager.getActiveNetworkInfo();
                     }
-                    if (networkInfo != null && networkInfo.isConnected()) {
+                    if(networkInfo !=null && networkInfo.isConnected()){
 //
                         getSupportLoaderManager().restartLoader(0, null, GiaoDienChoiGame.this);
-                    } else {
-                        Toast.makeText(GiaoDienChoiGame.this, "Lỗi Internet", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
                     }
                     startTimer();
                 }
@@ -719,12 +714,12 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
 
     private int TangDiemSo() {
         Random random = new Random();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor =sharedPreferences.edit();
         int Rand = random.nextInt(5) + 1;
         int Diem = Integer.valueOf(txt.getText().toString());
         int TongDiem1cau = (Diem * Rand);
         Tongdiem += TongDiem1cau;
-        editor.putString("diemso", "" + Tongdiem);
+        editor.putString("diemso",""+Tongdiem);
         editor.commit();
         return Tongdiem;
     }
@@ -1215,16 +1210,15 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                             }
                             break;
                     }
+                    butdong.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.show();
                 }
-                butdong.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
             }
-
         });
     }
 
@@ -1270,7 +1264,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         }
     }
 
-    private void XacNhanMua(ImageView imageView, String txt, int Key) {
+    private void XacNhanMua(ImageView imageView, String txt,int Key) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_xacnhan);
         Button btn_dog = dialog.findViewById(R.id.btn_dog);
@@ -1280,32 +1274,26 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         btn_dong_y.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Integer.valueOf(Tongdiem) < Integer.valueOf(txt)) {
-                    Toast.makeText(GiaoDienChoiGame.this, "Không đủ điễm để mua", Toast.LENGTH_LONG).show();
-                } else {
-                    switch (Key) {
+                if(Integer.valueOf(Tongdiem) < Integer.valueOf(txt)){
+                    Toast.makeText(GiaoDienChoiGame.this,"Không đủ điễm để mua",Toast.LENGTH_LONG).show();
+                }else{
+                    switch (Key){
                         case 0:
-                            img5050.setVisibility(View.VISIBLE);
-                            break;
+                            img5050.setVisibility(View.VISIBLE);break;
                         case 1:
-                            img_ykienkhangia.setVisibility(View.VISIBLE);
-                            break;
+                            img_ykienkhangia.setVisibility(View.VISIBLE);break;
                         case 2:
-                            img_GoiNguoithan.setVisibility(View.VISIBLE);
-                            break;
+                            img_GoiNguoithan.setVisibility(View.VISIBLE);break;
                         case 3:
-                            img_tuvantaicho.setVisibility(View.VISIBLE);
-                            break;
+                            img_tuvantaicho.setVisibility(View.VISIBLE);break;
                         case 4:
-                            img_tuvantaicho.setVisibility(View.VISIBLE);
-                            break;
-                        default:
-                            Toast.makeText(GiaoDienChoiGame.this, "Fail", Toast.LENGTH_LONG).show();
-                            break;
+                            img_tuvantaicho.setVisibility(View.VISIBLE);break;
+                            default:
+                                Toast.makeText(GiaoDienChoiGame.this,"Fail",Toast.LENGTH_LONG).show();break;
                     }
                     Tongdiem = (Integer.valueOf(Tongdiem) - Integer.valueOf(txt));
-                    btn_diem_so.setText("" + Tongdiem);
-                    Toast.makeText(GiaoDienChoiGame.this, "-" + txt, Toast.LENGTH_LONG).show();
+                    btn_diem_so.setText(""+Tongdiem);
+                    Toast.makeText(GiaoDienChoiGame.this,"-"+txt,Toast.LENGTH_LONG).show();
                     dialog.cancel();
                 }
             }
@@ -1340,7 +1328,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (img5050.getVisibility() == View.VISIBLE) {
                             Toast.makeText(GiaoDienChoiGame.this, "Chưa sài xong mà mua rồi :))))", Toast.LENGTH_LONG).show();
                         } else {
-                            XacNhanMua(imageViews[0], "100", 0);
+                            XacNhanMua(imageViews[0], "100",0);
                         }
                     }
                 });
@@ -1351,7 +1339,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (img_ykienkhangia.getVisibility() == View.VISIBLE) {
                             Toast.makeText(GiaoDienChoiGame.this, "Chưa sài xong mà mua rồi :))))", Toast.LENGTH_LONG).show();
                         } else {
-                            XacNhanMua(imageViews[1], "150", 1);
+                            XacNhanMua(imageViews[1], "150",1);
                         }
                     }
                 });
@@ -1361,7 +1349,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (img_tuvantaicho.getVisibility() == View.VISIBLE) {
                             Toast.makeText(GiaoDienChoiGame.this, "Chưa sài xong mà mua rồi :))))", Toast.LENGTH_LONG).show();
                         } else {
-                            XacNhanMua(imageViews[2], "175", 2);
+                            XacNhanMua(imageViews[2], "175",2);
                         }
                     }
                 });
@@ -1372,7 +1360,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (img_GoiNguoithan.getVisibility() == View.VISIBLE) {
                             Toast.makeText(GiaoDienChoiGame.this, "Chưa sài xong mà mua rồi :))))", Toast.LENGTH_LONG).show();
                         } else {
-                            XacNhanMua(imageViews[3], "250", 3);
+                            XacNhanMua(imageViews[3], "250",3);
                         }
                     }
                 });
@@ -1383,7 +1371,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (TongSoMang == 4) {
                             Toast.makeText(GiaoDienChoiGame.this, "Full mạng rồi mà mua gì :))))", Toast.LENGTH_LONG).show();
                         } else {
-                            XacNhanMua(imageViews[4], "300", 4);
+                            XacNhanMua(imageViews[4], "300",4);
                         }
                     }
                 });
@@ -1397,36 +1385,5 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             }
         });
 
-    }
-
-    private void Mua_Kc() {
-        btn_kimcuong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Dialog dialog = new Dialog(GiaoDienChoiGame.this);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setContentView(R.layout.dialog_mua_kc);
-                Button[] btn_kc = new Button[]{
-                        btn_kc_200 = dialog.findViewById(R.id.btn_kc_200),
-                        btn_kc_400 = dialog.findViewById(R.id.btn_kc_400),
-                        btn_kc_800 = dialog.findViewById(R.id.btn_kc_800),
-                        btn_kc_1500 = dialog.findViewById(R.id.btn_kc_1500),
-                        btn_kc_2500 = dialog.findViewById(R.id.btn_kc_2500),
-                        btn_kc_5000 = dialog.findViewById(R.id.btn_kc_5000),
-                };
-                Button btn_dong = dialog.findViewById(R.id.btn_dog);
-                goiGreditArrayList.clear();
-                new AsynTalkGoiCredit(btn_kc).execute("http://10.0.3.2:8001/api/goicredit/");
-                btn_dong.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-
-                    }
-                });
-                dialog.show();
-            }
-        });
     }
 }
