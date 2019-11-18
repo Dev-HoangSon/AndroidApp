@@ -9,20 +9,16 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class GiaoDienDangNhap extends Activity {
     private static String token;
     private SharedPreferences mPref;
     private String sharedPrefFile = "com.example.game";
     TextView txtDangKy;
+
     EditText txtTenDN, txtMatKhau;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +36,7 @@ public class GiaoDienDangNhap extends Activity {
             startActivity(intent);
         }
 
+
     }
     private void DangKy(){
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +48,7 @@ public class GiaoDienDangNhap extends Activity {
         });
 
     }
+
 
 
     public void dangNhap(View view) {
