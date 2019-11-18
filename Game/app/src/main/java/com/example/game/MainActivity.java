@@ -205,6 +205,7 @@ public class MainActivity extends Activity {
                 SharedPreferences.Editor editor =mPref.edit();
                 editor.clear();
                 editor.apply();
+                token =null;
                 btndangnhapgoole.setVisibility(View.VISIBLE);
                 btnDangXuat.clearAnimation();
                 mGoogleSignInClient.signOut();
@@ -231,6 +232,8 @@ public class MainActivity extends Activity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+
                 Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
                 btnDangXuat.startAnimation(animationscale);
                 btndangnhap.clearAnimation();
