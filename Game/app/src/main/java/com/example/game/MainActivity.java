@@ -2,6 +2,7 @@ package com.example.game;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -65,25 +66,33 @@ public class MainActivity extends Activity {
     ProfilePictureView profilePictureView;
     LoginButton loginButton;
     SignInButton btndangnhapgoole;
-
-
+    private String sharedPrefFile = "com.example.game";
+    private static String token="";
+    SharedPreferences mPref;
     CallbackManager callbackManager;
     GoogleSignInClient mGoogleSignInClient;
 
     String  name;
     Bitmap bitmap;
     TextView txtname ;
-    Button btndangnhap,btndangky,btnDangXuat,btnchoingay;
+    Button btndangnhap,btnDangXuat,btnchoingay;
     ImageButton btn_volume_on , icon_share;
     ImageView img_led, img_bangxephang ,hinhanh , imggoole ,img_xoay;
     boolean Amthanh = true;
     int requestcode = 123;
     int RC_SIGN_IN = 10;
     @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor prsE = mPref.edit();
+        prsE.putString("TOKEN",token);
+        prsE.apply();
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -134,7 +143,22 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        if(mPref.getString("TOKEN",null) !=null)
+        {
+            Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
+            btnDangXuat.startAnimation(animationscale);
+            btndangnhap.clearAnimation();
+            profilePictureView.setVisibility(View.VISIBLE);
+            //btndangky.clearAnimation();
+            btndangnhap.setVisibility(View.INVISIBLE);
+            //btndangky.setVisibility(View.INVISIBLE);
+            imggoole.setVisibility(View.INVISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
+            btndangnhapgoole.setVisibility(View.INVISIBLE);
+            btnDangXuat.setVisibility(View.VISIBLE);
+        }
     }
+
 
     private void signIn()
     {
@@ -178,12 +202,15 @@ public class MainActivity extends Activity {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor =mPref.edit();
+                editor.clear();
+                editor.apply();
                 btndangnhapgoole.setVisibility(View.VISIBLE);
                 btnDangXuat.clearAnimation();
                 mGoogleSignInClient.signOut();
                 LoginManager.getInstance().logOut();
                 btndangnhap.setVisibility(View.INVISIBLE);
-                btndangky.setVisibility(View.INVISIBLE);
+                //btndangky.setVisibility(View.INVISIBLE);
                 btnDangXuat.setVisibility(View.INVISIBLE);
                 txtname.setText("Username");
                 imggoole.setVisibility(View.INVISIBLE);
@@ -208,9 +235,9 @@ public class MainActivity extends Activity {
                 btnDangXuat.startAnimation(animationscale);
                 btndangnhap.clearAnimation();
                 profilePictureView.setVisibility(View.VISIBLE);
-                btndangky.clearAnimation();
+                //btndangky.clearAnimation();
                 btndangnhap.setVisibility(View.INVISIBLE);
-                btndangky.setVisibility(View.INVISIBLE);
+                //btndangky.setVisibility(View.INVISIBLE);
                 imggoole.setVisibility(View.INVISIBLE);
                 loginButton.setVisibility(View.INVISIBLE);
                 btndangnhapgoole.setVisibility(View.INVISIBLE);
@@ -337,9 +364,9 @@ public class MainActivity extends Activity {
                 Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
                 btnDangXuat.startAnimation(animationscale);
                 btndangnhap.clearAnimation();
-                btndangky.clearAnimation();
+                //btndangky.clearAnimation();
                 btndangnhap.setVisibility(View.INVISIBLE);
-                btndangky.setVisibility(View.INVISIBLE);
+                //btndangky.setVisibility(View.INVISIBLE);
                 loginButton.setVisibility(View.INVISIBLE);
                 profilePictureView.setVisibility(View.INVISIBLE);
                 String personName = acct.getDisplayName();

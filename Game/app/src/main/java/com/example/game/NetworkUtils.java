@@ -85,15 +85,15 @@ public class NetworkUtils {
         {
             builder.appendQueryParameter(pa.getKey(),pa.getValue());
         }
-        Uri builUri = builder.build();
+        Uri builtUri = builder.build();
         try {
 
-            URL requestURL = new URL(builUri.toString());
+            URL requestURL = new URL(builtUri.toString());
             urlConnection = (HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod(method);
             if(token != null)
             {
-                urlConnection.setRequestProperty("Authoriration",token);
+                urlConnection.setRequestProperty("Authorization",token);
             }
             urlConnection.connect();
 
