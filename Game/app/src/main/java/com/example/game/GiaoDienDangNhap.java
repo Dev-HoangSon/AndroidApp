@@ -17,9 +17,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GiaoDienDangNhap extends Activity {
-    private static String token;
     private SharedPreferences mPref;
     private String sharedPrefFile = "com.example.game";
+    private String token ="";
     TextView txtDangKy;
 
     EditText txtTenDN, txtMatKhau;
@@ -33,15 +33,16 @@ public class GiaoDienDangNhap extends Activity {
         DangKy();
         txtTenDN = findViewById(R.id.username);
         txtMatKhau = findViewById(R.id.passwword);
-
         mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
-        token = mPref.getString("TOKEN",null);
-        if(token == null){
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-        }
+        SharedPreferences.Editor editor =mPref.edit();
+        editor.clear();
+        editor.apply();
 
 
+//        if(mPref.getString("TOKEN",null) == null){
+//            Intent intent = new Intent(this,MainActivity.class);
+//            startActivity(intent);
+//        }
     }
     private void DangKy(){
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +78,7 @@ public class GiaoDienDangNhap extends Activity {
                             editor.putString("TOKEN",jsonObject.getString("token"));
                             editor.apply();
                             Intent intent = new Intent(GiaoDienDangNhap.this, MainActivity.class);
+                            finish();
                             startActivity(intent);
                         }
                         else {

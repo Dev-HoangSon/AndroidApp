@@ -1,6 +1,9 @@
 package com.example.game;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -61,7 +64,7 @@ import java.util.Arrays;
 public class MainActivity extends Activity {
 
 
-
+    private Dialog dialog;
     private Object NameNotFoundException;
     ProfilePictureView profilePictureView;
     LoginButton loginButton;
@@ -195,13 +198,20 @@ public class MainActivity extends Activity {
         img_xoay.startAnimation(animationalphaxoay);
     }
 
-
-
-
-    private void setLogout_Button() {
-        btnDangXuat.setOnClickListener(new View.OnClickListener() {
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn có muốn đăng xuất không?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
                 SharedPreferences.Editor editor =mPref.edit();
                 editor.clear();
                 editor.apply();
@@ -211,7 +221,6 @@ public class MainActivity extends Activity {
                 mGoogleSignInClient.signOut();
                 LoginManager.getInstance().logOut();
                 btndangnhap.setVisibility(View.INVISIBLE);
-                //btndangky.setVisibility(View.INVISIBLE);
                 btnDangXuat.setVisibility(View.INVISIBLE);
                 txtname.setText("Username");
                 imggoole.setVisibility(View.INVISIBLE);
@@ -219,6 +228,47 @@ public class MainActivity extends Activity {
                 profilePictureView.setProfileId(null);
                 loginButton.setVisibility(View.VISIBLE);
                 Anim_DangNhapAnhDangKy();
+                dialogInterface.dismiss();
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    public void showAlertDangNhap(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn chưa đăng nhập!");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+                Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
+                startActivityForResult(intent,requestcode);
+                dialogInterface.dismiss();
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+
+    private void setLogout_Button() {
+        btnDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialog();
             }
         });
     }
@@ -309,6 +359,7 @@ public class MainActivity extends Activity {
         btndangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
                 startActivityForResult(intent,requestcode);
                 mediaPlayer.stop();
@@ -321,9 +372,14 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
-                    startActivityForResult(intent,requestcode);
-                    mediaPlayer.stop();
+                    if(mPref.getString("TOKEN",null) !=null) {
+                        Intent intent = new Intent(MainActivity.this, GiaoDienChoiGame.class);
+                        startActivityForResult(intent, requestcode);
+                        mediaPlayer.stop();
+                    }
+                    else {
+                        showAlertDangNhap();
+                    }
                 }catch (Exception Ex){
                     Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
                     startActivityForResult(intent,requestcode);
