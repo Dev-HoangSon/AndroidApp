@@ -3,6 +3,7 @@ package com.example.game;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -48,6 +51,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,7 +81,7 @@ public class MainActivity extends Activity {
 
     String  name;
     Bitmap bitmap;
-    TextView txtname ;
+    TextView txtname, credit, diemCao;
     Button btndangnhap,btnDangXuat,btnchoingay;
     ImageButton btn_volume_on , icon_share;
     ImageView img_led, img_bangxephang ,hinhanh , imggoole ,img_xoay;
@@ -148,6 +152,7 @@ public class MainActivity extends Activity {
         });
         if(mPref.getString("TOKEN",null) !=null)
         {
+            token = mPref.getString("TOKEN",null);
             Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
             btnDangXuat.startAnimation(animationscale);
             btndangnhap.clearAnimation();
@@ -159,9 +164,36 @@ public class MainActivity extends Activity {
             loginButton.setVisibility(View.INVISIBLE);
             btndangnhapgoole.setVisibility(View.INVISIBLE);
             btnDangXuat.setVisibility(View.VISIBLE);
+
+             goiAPI();
         }
     }
 
+    public void goiAPI(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new FectAPIToken() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                            txtname.setText("Xin chào " + jsonObject.getString("ten_dang_nhap"));
+                            credit.setText("Credit: " + jsonObject.getString("credit"));
+                            diemCao.setText("Điểm cao nhất: " + jsonObject.getString("diem_cao_nhat"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("user-info", "GET", mPref.getString("TOKEN",null));
+        }
+    }
 
     private void signIn()
     {
@@ -170,6 +202,8 @@ public class MainActivity extends Activity {
     }
 
     public void GiaoDien(MediaPlayer mediaPlayer){
+        credit = findViewById(R.id.textView7);
+        diemCao = findViewById(R.id.textView6);
         imggoole = findViewById(R.id.imageViewgoogle);
         img_xoay = findViewById(R.id.img_xoay);
         btndangnhapgoole = findViewById(R.id.sign_in_button);
@@ -223,6 +257,8 @@ public class MainActivity extends Activity {
                 btndangnhap.setVisibility(View.INVISIBLE);
                 btnDangXuat.setVisibility(View.INVISIBLE);
                 txtname.setText("Username");
+                credit.setText("Credit: 0");
+                diemCao.setText("Điểm cao nhất: 0");
                 imggoole.setVisibility(View.INVISIBLE);
                 profilePictureView.setVisibility(View.VISIBLE);
                 profilePictureView.setProfileId(null);

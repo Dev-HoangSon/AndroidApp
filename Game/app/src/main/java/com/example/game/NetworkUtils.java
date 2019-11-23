@@ -81,10 +81,11 @@ public class NetworkUtils {
         HttpURLConnection urlConnection = null;
         String jsonString = null;
         Uri.Builder builder = Uri.parse(BASE_URL + uri).buildUpon();
-
-        for(Map.Entry<String,String> pa : param.entrySet())
+        if (param != null)
         {
-            builder.appendQueryParameter(pa.getKey(),pa.getValue());
+            for (Map.Entry<String, String> pa : param.entrySet()) {
+                builder.appendQueryParameter(pa.getKey(), pa.getValue());
+            }
         }
         Uri builtUri = builder.build();
         try {
