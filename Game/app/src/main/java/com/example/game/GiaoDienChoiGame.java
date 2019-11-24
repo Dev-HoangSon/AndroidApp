@@ -52,16 +52,18 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     ImageView img_xoay, img5050, img_ykienkhangia, img_GoiNguoithan, img_tuvantaicho;
     ImageView img_nagluot_mua, img5050_mua, img_ykienkhangia_mua, img_GoiNguoithan_mua, img_tuvantaicho_mua;
     ImageView img_mang1, img_mang2, img_mang3, img_mang4, img_mang5, img_cua_hang;
-    Button btn_A, btn_B, btn_C, btn_D, btn_sansang, btn_noidungcauhoi, btn_diem_so;
+    Button btn_A, btn_B, btn_C, btn_D, btn_sansang, btn_noidungcauhoi, btn_diem_so,btn_kimcuong;
     Button btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4;
     TextView txt;
     public static ArrayList<Linh_Vuc> linh_vucArrayList = new ArrayList<>();
+    public static ArrayList<GoiGredit> goiGreditArrayList = new ArrayList<>();
     public static String LinhVucDuocChon = "", LinhVucChoi = "";
     String id_cauhoi = "";
     String DapAnDung = "";
     int Tongdiem = 0, TongSoMang = 4;
     boolean key = true, keyKQ = false;
     int SoDapAnChinhXac = 0, Vitridapanchinhxac = 0, giatri5050so1 = 0, giattri5050so2 = 0;
+    Button btn_kc_200, btn_kc_400, btn_kc_800, btn_kc_1500, btn_kc_2500, btn_kc_5000 ;
     String keymp3 = "";
 
     @Override
@@ -90,6 +92,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         GoiDienNguoiThan();
         TuVanTaiCho();
         CuaHang();
+        Mua_Kc();
 
     }
 
@@ -99,6 +102,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     }
 
     public void LoadGiaoDien() {
+        btn_kimcuong = findViewById(R.id.btn_kimcuong);
         img_cua_hang = findViewById(R.id.img_cua_hang);
         btn_lv_1 = findViewById(R.id.btn_lv_1);
         btn_lv_2 = findViewById(R.id.btn_lv_2);
@@ -452,7 +456,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
-                            if (KiemTraDapAn("C", DapAnDung)) {
+                            if (KiemTraDapAn("B", DapAnDung)) {
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -744,11 +748,11 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     }
 
     private int LayVitriDapAnDung() {
-        if (DapAnDung.equals(btn_A.getText().toString())) {
+        if (DapAnDung.equals("A")) {
             return 1;
-        } else if (DapAnDung.equals(btn_B.getText().toString())) {
+        } else if (DapAnDung.equals("B")) {
             return 2;
-        } else if (DapAnDung.equals(btn_C.getText().toString())) {
+        } else if (DapAnDung.equals("C")) {
             return 3;
         } else {
             return 4;
@@ -1026,6 +1030,12 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                 TextView txtnguoi2 = dialog.findViewById(R.id.txtnguoi2);
                 TextView txtnguoi3 = dialog.findViewById(R.id.txtnguoi3);
                 Button butdong = dialog.findViewById(R.id.btn_dong);
+                butdong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
                 int phamtramketqua = 24;
                 int Vitri = 0;
                 int Nguoi1 = 0, Nguoi2 = 0;
@@ -1216,8 +1226,8 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                             dialog.cancel();
                         }
                     });
-                    dialog.show();
                 }
+                dialog.show();
             }
         });
     }
@@ -1385,5 +1395,35 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             }
         });
 
+    }
+    private void Mua_Kc() {
+        btn_kimcuong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialog = new Dialog(GiaoDienChoiGame.this);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setContentView(R.layout.dialog_mua_kc);
+                Button[] btn_kc = new Button[]{
+                        btn_kc_200 = dialog.findViewById(R.id.btn_kc_200),
+                        btn_kc_400 = dialog.findViewById(R.id.btn_kc_400),
+                        btn_kc_800 = dialog.findViewById(R.id.btn_kc_800),
+                        btn_kc_1500 = dialog.findViewById(R.id.btn_kc_1500),
+                        btn_kc_2500 = dialog.findViewById(R.id.btn_kc_2500),
+                        btn_kc_5000 = dialog.findViewById(R.id.btn_kc_5000),
+                };
+                Button btn_dong = dialog.findViewById(R.id.btn_dog);
+                goiGreditArrayList.clear();
+                new AsynTalkGoiCredit(btn_kc).execute("http://10.0.3.2:8000/api/lay_gredit/");
+                btn_dong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 }
