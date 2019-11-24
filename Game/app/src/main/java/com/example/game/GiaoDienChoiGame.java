@@ -134,7 +134,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         }
         if(networkInfo !=null && networkInfo.isConnected()){
           //new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("https://hoangsonapp.000webhostapp.com/api/linh-vuc/");
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.2.2:8000/api/linh-vuc/");
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
         }else{
             Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }
@@ -224,7 +224,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         }
         if(networkInfo !=null && networkInfo.isConnected()){
             linh_vucArrayList.clear();
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.2.2:8000/api/linh-vuc/");
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
         }else{
             Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }

@@ -1,10 +1,6 @@
 package com.example.game;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -13,8 +9,6 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -51,7 +45,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,7 +61,7 @@ import java.util.Arrays;
 public class MainActivity extends Activity {
 
 
-    private Dialog dialog;
+
     private Object NameNotFoundException;
     ProfilePictureView profilePictureView;
     LoginButton loginButton;
@@ -81,8 +74,8 @@ public class MainActivity extends Activity {
 
     String  name;
     Bitmap bitmap;
-    TextView txtname, credit, diemCao;
-    Button btndangnhap,btnDangXuat,btnchoingay;
+    TextView txtname ;
+    Button btndangnhap,btnDangXuat,btnchoingay, btnthongtin;
     ImageButton btn_volume_on , icon_share;
     ImageView img_led, img_bangxephang ,hinhanh , imggoole ,img_xoay;
     boolean Amthanh = true;
@@ -129,6 +122,7 @@ public class MainActivity extends Activity {
 
 
 
+
         MediaPlayer  mediaPlayer = MediaPlayer.create(this,R.raw.bgwarm);
         GiaoDien(mediaPlayer);
         Tat_Nhac(mediaPlayer);
@@ -139,6 +133,7 @@ public class MainActivity extends Activity {
         btndangnhap.setVisibility(View.VISIBLE);
         setLogin_Button();
         setLogout_Button();
+        ThongTinTaiKhoan();
         btndangnhapgoole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +147,6 @@ public class MainActivity extends Activity {
         });
         if(mPref.getString("TOKEN",null) !=null)
         {
-            token = mPref.getString("TOKEN",null);
             Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
             btnDangXuat.startAnimation(animationscale);
             btndangnhap.clearAnimation();
@@ -164,36 +158,9 @@ public class MainActivity extends Activity {
             loginButton.setVisibility(View.INVISIBLE);
             btndangnhapgoole.setVisibility(View.INVISIBLE);
             btnDangXuat.setVisibility(View.VISIBLE);
-
-             goiAPI();
         }
     }
 
-    public void goiAPI(){
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if(connectivityManager !=null)
-        {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
-        }
-        if(networkInfo != null && networkInfo.isConnected()) {
-            new FectAPIToken() {
-                @Override
-                protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(s);
-                            txtname.setText("Xin chào " + jsonObject.getString("ten_dang_nhap"));
-                            credit.setText("Credit: " + jsonObject.getString("credit"));
-                            diemCao.setText("Điểm cao nhất: " + jsonObject.getString("diem_cao_nhat"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.execute("user-info", "GET", mPref.getString("TOKEN",null));
-        }
-    }
 
     private void signIn()
     {
@@ -202,8 +169,7 @@ public class MainActivity extends Activity {
     }
 
     public void GiaoDien(MediaPlayer mediaPlayer){
-        credit = findViewById(R.id.textView7);
-        diemCao = findViewById(R.id.textView6);
+        btnthongtin = findViewById(R.id.thongtin);
         imggoole = findViewById(R.id.imageViewgoogle);
         img_xoay = findViewById(R.id.img_xoay);
         btndangnhapgoole = findViewById(R.id.sign_in_button);
@@ -232,20 +198,26 @@ public class MainActivity extends Activity {
         img_xoay.startAnimation(animationalphaxoay);
     }
 
-    public void showAlertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thông báo");
-        builder.setMessage("Bạn có muốn đăng xuất không?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+    private void ThongTinTaiKhoan(){
+            btnthongtin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(btndangnhap.getVisibility() == View.VISIBLE){
+                        Toast.makeText(MainActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_LONG).show();
+                    }else {
+                        Intent intent = new Intent(MainActivity.this, ThongTinNguoiChoi.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+    }
 
-            }
-        });
-        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+
+
+    private void setLogout_Button() {
+        btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View v) {
                 SharedPreferences.Editor editor =mPref.edit();
                 editor.clear();
                 editor.apply();
@@ -255,56 +227,14 @@ public class MainActivity extends Activity {
                 mGoogleSignInClient.signOut();
                 LoginManager.getInstance().logOut();
                 btndangnhap.setVisibility(View.INVISIBLE);
+                //btndangky.setVisibility(View.INVISIBLE);
                 btnDangXuat.setVisibility(View.INVISIBLE);
                 txtname.setText("Username");
-                credit.setText("Credit: 0");
-                diemCao.setText("Điểm cao nhất: 0");
                 imggoole.setVisibility(View.INVISIBLE);
                 profilePictureView.setVisibility(View.VISIBLE);
                 profilePictureView.setProfileId(null);
                 loginButton.setVisibility(View.VISIBLE);
                 Anim_DangNhapAnhDangKy();
-                dialogInterface.dismiss();
-
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
-
-    public void showAlertDangNhap(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thông báo");
-        builder.setMessage("Bạn chưa đăng nhập!");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        builder.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-                Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
-                startActivityForResult(intent,requestcode);
-                dialogInterface.dismiss();
-
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
-
-
-    private void setLogout_Button() {
-        btnDangXuat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAlertDialog();
             }
         });
     }
@@ -312,6 +242,7 @@ public class MainActivity extends Activity {
      private  void  Anim_DangNhapAnhDangKy(){
          Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
          btndangnhap.startAnimation(animationscale);
+         btnthongtin.startAnimation(animationscale);
     }
 
     private void setLogin_Button() {
@@ -395,7 +326,6 @@ public class MainActivity extends Activity {
         btndangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
                 startActivityForResult(intent,requestcode);
                 mediaPlayer.stop();
@@ -408,14 +338,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    if(mPref.getString("TOKEN",null) !=null) {
-                        Intent intent = new Intent(MainActivity.this, GiaoDienChoiGame.class);
-                        startActivityForResult(intent, requestcode);
-                        mediaPlayer.stop();
-                    }
-                    else {
-                        showAlertDangNhap();
-                    }
+                    Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
+                    startActivityForResult(intent,requestcode);
+                    mediaPlayer.stop();
                 }catch (Exception Ex){
                     Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
                     startActivityForResult(intent,requestcode);
