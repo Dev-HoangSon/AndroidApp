@@ -3,6 +3,7 @@ package com.example.game;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
@@ -138,7 +139,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         }
         if(networkInfo !=null && networkInfo.isConnected()){
           //new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("https://hoangsonapp.000webhostapp.com/api/linh-vuc/");
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.2.2:8000/api/linh-vuc/");
         }else{
             Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }
@@ -228,7 +229,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         }
         if(networkInfo !=null && networkInfo.isConnected()){
             linh_vucArrayList.clear();
-            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.3.2:8000/api/linh-vuc/");
+            new AsyntalkLinhVuc(btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4).execute("http://10.0.2.2:8000/api/linh-vuc/");
         }else{
             Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
         }
@@ -1414,7 +1415,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                 };
                 Button btn_dong = dialog.findViewById(R.id.btn_dog);
                 goiGreditArrayList.clear();
-                new AsynTalkGoiCredit(btn_kc).execute("http://10.0.3.2:8000/api/lay_gredit/");
+                new AsynTalkGoiCredit(btn_kc).execute("http://10.0.2.2:8000/api/lay_gredit/");
                 btn_dong.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1425,5 +1426,17 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                 dialog.show();
             }
         });
+    }
+
+    public void TrangChu(View view) {
+        finish();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void ChoiLai(View view) {
+        finish();
+        Intent intent = new Intent(this,GiaoDienChoiGame.class);
+        startActivity(intent);
     }
 }

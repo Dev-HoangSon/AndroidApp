@@ -61,9 +61,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_tetview_dangnhap"
+        android:editable="false"
         android:hint="Tài khoản"
         android:inputType="text"
         android:padding="16dp"
+        android:textColor="#F9F8FC"
         android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
@@ -85,7 +87,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/email3"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/credit"></Button>
 
     <TextView
         android:id="@+id/quenmatkhau"
@@ -145,9 +147,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_tetview_dangnhap"
+        android:editable="true"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:textColor="#F9F8FC"
         android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
@@ -155,14 +159,16 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
-        android:id="@+id/email2"
+        android:id="@+id/diemSo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_tetview_dangnhap"
+        android:editable="true"
         android:hint="Điểm số"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:textColor="#F9F8FC"
         android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
@@ -170,19 +176,21 @@
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <EditText
-        android:id="@+id/email3"
+        android:id="@+id/credit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_tetview_dangnhap"
+        android:editable="true"
         android:hint="Credit"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:textColor="#F9F8FC"
         android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/email2" />
+        app:layout_constraintTop_toBottomOf="@+id/diemSo" />
 
     <TextView
         android:id="@+id/textView3"
