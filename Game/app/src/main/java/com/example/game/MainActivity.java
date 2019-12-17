@@ -54,8 +54,9 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-
+import java.util.Date;
 
 
 public class MainActivity extends Activity {
@@ -145,6 +146,13 @@ public class MainActivity extends Activity {
                 }
             }
         });
+<<<<<<< Updated upstream
+=======
+//        SharedPreferences.Editor editor =mPref.edit();
+//        editor.clear();
+//        editor.apply();
+//        token =null;
+>>>>>>> Stashed changes
         if(mPref.getString("TOKEN",null) !=null)
         {
             Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
@@ -326,9 +334,17 @@ public class MainActivity extends Activity {
         btndangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< Updated upstream
                 Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
                 startActivityForResult(intent,requestcode);
                 mediaPlayer.stop();
+=======
+
+                Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
+                startActivityForResult(intent,requestcode);
+                mediaPlayer.stop();
+                finish();
+>>>>>>> Stashed changes
             }
         });
     }
@@ -338,15 +354,57 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
+<<<<<<< Updated upstream
                     Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
                     startActivityForResult(intent,requestcode);
                     mediaPlayer.stop();
+=======
+                    if(mPref.getString("TOKEN",null) !=null) {
+                        LuuLuotChoi();
+                        mediaPlayer.stop();
+                    }
+                    else {
+                        showAlertDangNhap();
+                    }
+>>>>>>> Stashed changes
                 }catch (Exception Ex){
                     Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
                     startActivityForResult(intent,requestcode);
                 }
             }
         });
+    }
+
+    public void LuuLuotChoi(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        String currentDateTime;
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentDateTime = sdf1.format(new Date());
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new LuotChoi() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                        if(jsonObject.getBoolean("success"))
+                        {
+                            Intent intent = new Intent(MainActivity.this, GiaoDienChoiGame.class);
+                            startActivityForResult(intent, requestcode);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("luu-luot-choi", "POST", mPref.getString("TOKEN",null),currentDateTime);
+        }
     }
 
     @Override
