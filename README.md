@@ -1,2 +1,2 @@
 # AndroidApp
-Đồ án môn lập trình android
+Đồ án môn lập trình Android
