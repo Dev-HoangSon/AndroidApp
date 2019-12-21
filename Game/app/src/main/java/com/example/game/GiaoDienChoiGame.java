@@ -47,6 +47,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     SharedPreferences sharedPreferences;
     private static final long START_TIME_IN_MILLIS = 30000;
     private MediaPlayer mediaPlayerCauhoi;
+    private String sharedPrefFile = "com.example.game";
+    private static String token="";
+    private static int SoCau = 0;
+    SharedPreferences mPref;
     private CountDownTimer countDownTimerTime;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
@@ -73,7 +77,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_giao_dien_choi_game);
-
+        mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
         if (getSupportLoaderManager().getLoader(0) != null) {
             getSupportLoaderManager().initLoader(0, null, this);
         }
@@ -96,6 +100,61 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         Mua_Kc();
 
     }
+
+    public void LuuChiTietLuotChoi(String id, String phuongan, String diem){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new ChiTietLuotChoi() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                        if(jsonObject.getBoolean("success"))
+                        {
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("luu-chi-tiet-luot-choi", "POST", mPref.getString("TOKEN",null),id,phuongan,diem);
+        }
+    }
+
+    public void CapNhatLuotChoi(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new CapNhatLuotChoi() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                        if(jsonObject.getBoolean("success"))
+                        {
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("cap-nhat-luot-choi", "POST", mPref.getString("TOKEN",null), sharedPreferences.getString("diemso",null),SoCau+"");
+        }
+    }
+
 
     private void LoadDiemThuog() {
 
@@ -281,20 +340,8 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                 });
                 break;
         }
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Random random = new Random();
-        int Diemtru = random.nextInt(5) + 1;
-        int Time = Integer.valueOf(txt.getText().toString());
-        int Tru = Time * Diemtru;
-        Tongdiem -= Tru;
-        if (Tongdiem <= 0) {
-            Tongdiem = 0;
-            Tru = 0;
-        }
-        btn_diem_so.setText("" + Tongdiem);
-        editor.putString("diemso",""+Tongdiem);
-        Toast.makeText(GiaoDienChoiGame.this, "Bạn đã bị trừ " + Tru + " điểm và mất 1 lượt chơi", Toast.LENGTH_LONG).show();
-        editor.commit();
+
+        Toast.makeText(GiaoDienChoiGame.this, "Bạn đã bị mất 1 lượt chơi", Toast.LENGTH_LONG).show();
     }
 
     private void Clickchonlinhvuc(Button btn, int thutu, Button btnOne, Button btnTwo, Button btnThree) {
@@ -308,7 +355,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                     LinhVucDuocChon = "";
                     if (LinhVucDuocChon == "") {
                         LinhVucDuocChon = String.valueOf(linh_vucArrayList.get(thutu).getId());
-
+                        SoCau +=1;
                     }
                     if (btn_sansang.getVisibility() == View.INVISIBLE) {
                         btn_sansang.setVisibility(View.VISIBLE);
@@ -410,6 +457,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("A", DapAnDung)) {
                                 LoadLaiKhiDung();
+                                LuuChiTietLuotChoi(id_cauhoi,"A","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
@@ -425,6 +473,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
 
                             } else {
                                 btn_A.setBackgroundResource(R.drawable.btn_khungtraloi);
+                                LuuChiTietLuotChoi(id_cauhoi,"A","0");
                                 LoadThua();
                             }
                         }
@@ -459,6 +508,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("B", DapAnDung)) {
                                 LoadLaiKhiDung();
+                                LuuChiTietLuotChoi(id_cauhoi,"B","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
@@ -474,6 +524,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
 
                             } else {
                                 btn_B.setBackgroundResource(R.drawable.btn_khungtraloi);
+                                LuuChiTietLuotChoi(id_cauhoi,"B","0");
                                 LoadThua();
                             }
                         }
@@ -508,6 +559,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("C", DapAnDung)) {
                                 LoadLaiKhiDung();
+                                LuuChiTietLuotChoi(id_cauhoi,"C","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
@@ -522,6 +574,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                                 }.start();
                             } else {
                                 btn_C.setBackgroundResource(R.drawable.btn_khungtraloi);
+                                LuuChiTietLuotChoi(id_cauhoi,"C","0");
                                 LoadThua();
                             }
                         }
@@ -556,6 +609,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("D", DapAnDung)) {
                                 LoadLaiKhiDung();
+                                LuuChiTietLuotChoi(id_cauhoi,"D","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
                                     public void onTick(long millisUntilFinished) {
@@ -570,6 +624,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                                 }.start();
                             } else {
                                 btn_D.setBackgroundResource(R.drawable.btn_khungtraloi);
+                                LuuChiTietLuotChoi(id_cauhoi,"D","0");
                                 LoadThua();
                             }
                         }
@@ -718,12 +773,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     }
 
     private int TangDiemSo() {
-        Random random = new Random();
         SharedPreferences.Editor editor =sharedPreferences.edit();
-        int Rand = random.nextInt(5) + 1;
         int Diem = Integer.valueOf(txt.getText().toString());
-        int TongDiem1cau = (Diem * Rand);
-        Tongdiem += TongDiem1cau;
+        int TongDiem1cau = (Diem + 100);
+        Tongdiem = TongDiem1cau;
         editor.putString("diemso",""+Tongdiem);
         editor.commit();
         return Tongdiem;
@@ -1269,6 +1322,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         tat_bat_cicklinhvuc(true);
         LoadLaiKhiDung();
         if (TongSoMang == -1) {
+            CapNhatLuotChoi();
             Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_thanh_tich);
             dialog.show();
