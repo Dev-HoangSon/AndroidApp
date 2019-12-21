@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -49,6 +50,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONException;
@@ -78,7 +80,7 @@ public class MainActivity extends Activity {
     SharedPreferences mPref;
     CallbackManager callbackManager;
     GoogleSignInClient mGoogleSignInClient;
-
+    String txtImg = "";
     String  name;
     Bitmap bitmap;
     TextView txtname, credit, diemcao;
@@ -186,6 +188,10 @@ public class MainActivity extends Activity {
                         txtname.setText("Xin chào " + jsonObject.getString("ten_dang_nhap"));
                         credit.setText("Credit: " + jsonObject.getString("credit"));
                         diemcao.setText("Điểm cao nhất: " + jsonObject.getString("diem_cao_nhat"));
+                        txtImg = jsonObject.getString("hinh_dai_dien");
+                        profilePictureView.setVisibility(View.INVISIBLE);
+                        imggoole.setVisibility(View.VISIBLE);
+                        Picasso.get().load("http://10.0.2.2:8000/storage/"+txtImg).into(imggoole);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -250,19 +256,17 @@ public class MainActivity extends Activity {
     }
 
     public void showAlertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thông báo");
-        builder.setMessage("Bạn có muốn đăng xuất không?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.custom_dialog_dang_xuat);
+        Button btn_dangxuat = dialog.findViewById(R.id.btn_dialog_dangxuat);
+        Button btn_dong = dialog.findViewById(R.id.btn_dialog_dong);
 
-            }
-        });
-        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+        btn_dangxuat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View v) {
                 SharedPreferences.Editor editor =mPref.edit();
                 editor.clear();
                 editor.apply();
@@ -283,14 +287,61 @@ public class MainActivity extends Activity {
                 loginButton.setVisibility(View.VISIBLE);
                 Anim_DangNhapAnhDangKy();
 
-                dialogInterface.dismiss();
-
+                dialog.dismiss();
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
 
+        btn_dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
     }
+
+//    public void showAlertDialog(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Thông báo");
+//        builder.setMessage("Bạn có muốn đăng xuất không?");
+//        builder.setCancelable(false);
+//        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        builder.setNegativeButton("Đăng xuất", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                SharedPreferences.Editor editor =mPref.edit();
+//                editor.clear();
+//                editor.apply();
+//                token =null;
+//                btndangnhapgoole.setVisibility(View.VISIBLE);
+//                btnDangXuat.clearAnimation();
+//                mGoogleSignInClient.signOut();
+//                LoginManager.getInstance().logOut();
+//                btndangnhap.setVisibility(View.INVISIBLE);
+//                //btndangky.setVisibility(View.INVISIBLE);
+//                btnDangXuat.setVisibility(View.INVISIBLE);
+//                txtname.setText("Username");
+//                credit.setText("Credit: 0");
+//                diemcao.setText("Điểm cao nhất: 0");
+//                imggoole.setVisibility(View.INVISIBLE);
+//                profilePictureView.setVisibility(View.VISIBLE);
+//                profilePictureView.setProfileId(null);
+//                loginButton.setVisibility(View.VISIBLE);
+//                Anim_DangNhapAnhDangKy();
+//
+//                dialogInterface.dismiss();
+//
+//            }
+//        });
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//
+//    }
 
 
     private void setLogout_Button() {
@@ -303,30 +354,58 @@ public class MainActivity extends Activity {
     }
 
     public void showAlertDangNhap(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thông báo");
-        builder.setMessage("Bạn chưa đăng nhập!");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.custom_dialog_dang_nhap);
+        Button btn_dangnhap = dialog.findViewById(R.id.btn_dialog_dangnhap);
+        Button btn_dong = dialog.findViewById(R.id.btn_dialog_dong);
 
-            }
-        });
-        builder.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+        btn_dangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View v) {
                 finish();
                 Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
                 startActivityForResult(intent,requestcode);
-                dialogInterface.dismiss();
-
+                dialog.dismiss();
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
 
+        btn_dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
     }
+
+//    public void showAlertDangNhap(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Thông báo");
+//        builder.setMessage("Bạn chưa đăng nhập!");
+//        builder.setCancelable(false);
+//        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        builder.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                finish();
+//                Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
+//                startActivityForResult(intent,requestcode);
+//                dialogInterface.dismiss();
+//
+//            }
+//        });
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//
+//    }
 
     private  void  Anim_DangNhapAnhDangKy(){
          Animation animationscale = AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_rcale);
@@ -415,9 +494,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 finish();
                 Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
-                startActivityForResult(intent,requestcode);
                 mediaPlayer.stop();
-
+                startActivityForResult(intent,requestcode);
             }
         });
     }
@@ -427,7 +505,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    if(mPref.getString("TOKEN",null) !=null) {
+                    if(mPref.getString("TOKEN",null) !=null || btndangnhap.getVisibility() == View.INVISIBLE) {
                         Intent intent = new Intent(MainActivity.this, GiaoDienChoiGame.class);
                         startActivityForResult(intent, requestcode);
                         mediaPlayer.stop();
