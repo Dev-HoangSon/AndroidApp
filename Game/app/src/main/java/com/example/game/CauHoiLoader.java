@@ -17,7 +17,6 @@ public class CauHoiLoader extends AsyncTaskLoader<String> {
         super.onStartLoading();
         forceLoad();
     }
-
     @Nullable
     @Override
     public String loadInBackground() {
