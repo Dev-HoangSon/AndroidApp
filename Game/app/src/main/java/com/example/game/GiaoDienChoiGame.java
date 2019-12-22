@@ -50,7 +50,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private static String token="";
     private static int SoCau = 0;
     private static int TongDiem =0;
-    int DiemCong;
     SharedPreferences mPref;
     private CountDownTimer countDownTimerTime;
     private boolean mTimerRunning;
@@ -84,10 +83,9 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             getSupportLoaderManager().initLoader(0, null, this);
         }
         TongSoMang =mPref.getInt("COHOI",0) - 1;
-        DiemCong =mPref.getInt("DIEM",0);
+
         START_TIME_IN_MILLIS =mPref.getInt("THOIGIAN",0)*1000;
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        Toast.makeText(this,TongSoMang+" "+DiemCong+ " " + START_TIME_IN_MILLIS,Toast.LENGTH_SHORT).show();
         LoadGiaoDien();
         Linh_Vuc_1();
         Linh_Vuc_2();
@@ -461,7 +459,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("A", DapAnDung)) {
-                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"A","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -513,7 +510,6 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("B", DapAnDung)) {
-                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"B","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -565,7 +561,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("C", DapAnDung)) {
-                                TongDiem += DiemCong;
+
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"C","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -616,7 +612,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("D", DapAnDung)) {
-                                TongDiem += DiemCong;
+
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"D","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -784,11 +780,11 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private int TangDiemSo() {
         SharedPreferences.Editor editor =sharedPreferences.edit();
         int Diem = Integer.valueOf(txt.getText().toString());
-        int TongDiem1cau = (Diem + DiemCong);
-        Tongdiem = TongDiem1cau;
-        editor.putString("diemso",""+TongDiem1cau);
+        int TongDiem1cau = (Diem + 100);
+        Tongdiem += TongDiem1cau;
+        editor.putString("diemso",""+TongDiem);
         editor.commit();
-        return TongDiem1cau;
+        return Tongdiem;
     }
 
     private boolean KiemTraDapAn(String dapantraloi, String ketqua) {
@@ -1341,9 +1337,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private void XacNhanMua(ImageView imageView, String txt,int Key) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_xacnhan);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Button btn_dog = dialog.findViewById(R.id.btn_dog);
         Button btn_dong_y = dialog.findViewById(R.id.bnt_dog_y);
-        TextView txtienThiGia = dialog.findViewById(R.id.txt_GiaTien);
+        Button txtienThiGia = dialog.findViewById(R.id.txt_GiaTien);
         txtienThiGia.setText("-" + txt + " Điểm");
         btn_dong_y.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,4 +19,9 @@ public interface DataClient {
                             @Field("mat_khau") String mat_khau,
                             @Field("email") String email,
                             @Field("hinh_dai_dien") String hinh_dai_dien);
+
+    @FormUrlEncoded
+    @POST("xoa-tai-khoan")
+    Call<String> DeleteData(@Field("email") String email,
+                            @Field("img") String img);
 }
