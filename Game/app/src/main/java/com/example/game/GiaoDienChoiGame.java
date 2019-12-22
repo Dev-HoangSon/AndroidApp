@@ -45,15 +45,17 @@ import java.util.TooManyListenersException;
 
 public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     SharedPreferences sharedPreferences;
-    private static final long START_TIME_IN_MILLIS = 30000;
     private MediaPlayer mediaPlayerCauhoi;
     private String sharedPrefFile = "com.example.game";
     private static String token="";
     private static int SoCau = 0;
+    private static int TongDiem =0;
+    int DiemCong;
     SharedPreferences mPref;
     private CountDownTimer countDownTimerTime;
     private boolean mTimerRunning;
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    long START_TIME_IN_MILLIS;
+    private long mTimeLeftInMillis;
     ImageView img_xoay, img5050, img_ykienkhangia, img_GoiNguoithan, img_tuvantaicho;
     ImageView img_nagluot_mua, img5050_mua, img_ykienkhangia_mua, img_GoiNguoithan_mua, img_tuvantaicho_mua;
     ImageView img_mang1, img_mang2, img_mang3, img_mang4, img_mang5, img_cua_hang;
@@ -81,7 +83,11 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         if (getSupportLoaderManager().getLoader(0) != null) {
             getSupportLoaderManager().initLoader(0, null, this);
         }
-
+        TongSoMang =mPref.getInt("COHOI",0) - 1;
+        DiemCong =mPref.getInt("DIEM",0);
+        START_TIME_IN_MILLIS =mPref.getInt("THOIGIAN",0)*1000;
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        Toast.makeText(this,TongSoMang+" "+DiemCong+ " " + START_TIME_IN_MILLIS,Toast.LENGTH_SHORT).show();
         LoadGiaoDien();
         Linh_Vuc_1();
         Linh_Vuc_2();
@@ -151,10 +157,9 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         e.printStackTrace();
                     }
                 }
-            }.execute("cap-nhat-luot-choi", "POST", mPref.getString("TOKEN",null), sharedPreferences.getString("diemso",null),SoCau+"");
+            }.execute("cap-nhat-luot-choi", "POST", mPref.getString("TOKEN",null), TongDiem+"",SoCau+"");
         }
     }
-
 
     private void LoadDiemThuog() {
 
@@ -456,6 +461,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("A", DapAnDung)) {
+                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"A","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -507,6 +513,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("B", DapAnDung)) {
+                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"B","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -558,6 +565,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("C", DapAnDung)) {
+                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"C","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -608,6 +616,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("D", DapAnDung)) {
+                                TongDiem += DiemCong;
                                 LoadLaiKhiDung();
                                 LuuChiTietLuotChoi(id_cauhoi,"D","100");
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
@@ -775,11 +784,11 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private int TangDiemSo() {
         SharedPreferences.Editor editor =sharedPreferences.edit();
         int Diem = Integer.valueOf(txt.getText().toString());
-        int TongDiem1cau = (Diem + 100);
+        int TongDiem1cau = (Diem + DiemCong);
         Tongdiem = TongDiem1cau;
-        editor.putString("diemso",""+Tongdiem);
+        editor.putString("diemso",""+TongDiem1cau);
         editor.commit();
-        return Tongdiem;
+        return TongDiem1cau;
     }
 
     private boolean KiemTraDapAn(String dapantraloi, String ketqua) {

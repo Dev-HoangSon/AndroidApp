@@ -53,6 +53,7 @@ import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -103,7 +104,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
-
+        layCauHinh();
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -530,6 +531,37 @@ public class MainActivity extends Activity {
                 startActivityForResult(intent,requestcode);
             }
         });
+    }
+
+    public void layCauHinh(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new LayCauHinh() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                        if(jsonObject.getBoolean("success"))
+                        {
+                            SharedPreferences.Editor editor = mPref.edit();
+                            editor.putInt("COHOI",jsonObject.getInt("co_hoi"));
+                            editor.putInt("THOIGIAN",jsonObject.getInt("thoi_gian"));
+                            editor.putInt("DIEM",jsonObject.getInt("diem"));
+                            editor.apply();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("lay-cau-hinh", "GET");
+        }
     }
 
     public void ChoiGame(MediaPlayer mediaPlayer){
