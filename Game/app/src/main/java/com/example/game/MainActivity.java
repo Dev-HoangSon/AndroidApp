@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
     String txtImg = "";
     String  name;
     Bitmap bitmap;
-    TextView txtname, credit, diemcao;
+    Button txtname, credit, diemcao;
     Button btndangnhap,btnDangXuat,btnchoingay, btnthongtin;
     ImageButton btn_volume_on , icon_share;
     ImageView img_led, img_bangxephang ,hinhanh , imggoole ,img_xoay;
@@ -187,7 +187,6 @@ public class MainActivity extends Activity {
                         jsonObject = new JSONObject(s);
                         txtname.setText("Xin chào " + jsonObject.getString("ten_dang_nhap"));
                         credit.setText("Credit: " + jsonObject.getString("credit"));
-                        diemcao.setText("Điểm cao nhất: " + jsonObject.getString("diem_cao_nhat"));
                         txtImg = jsonObject.getString("hinh_dai_dien");
                         profilePictureView.setVisibility(View.INVISIBLE);
                         imggoole.setVisibility(View.VISIBLE);
@@ -209,7 +208,6 @@ public class MainActivity extends Activity {
 
     public void GiaoDien(MediaPlayer mediaPlayer){
         credit = findViewById(R.id.textView7);
-        diemcao = findViewById(R.id.textView6);
         btnthongtin = findViewById(R.id.thongtin);
         imggoole = findViewById(R.id.imageViewgoogle);
         img_xoay = findViewById(R.id.img_xoay);
@@ -217,7 +215,6 @@ public class MainActivity extends Activity {
         profilePictureView  = findViewById(R.id.friendProfilePictureview);
         loginButton = findViewById(R.id.login_button);
         credit.setText("Credit: 0");
-        diemcao.setText("Điểm cao nhất: 0");
         btnDangXuat = findViewById(R.id.dangxuat);
         txtname = findViewById(R.id.name);
         btndangnhap = findViewById(R.id.btndangnhap);
@@ -280,7 +277,6 @@ public class MainActivity extends Activity {
                 btnDangXuat.setVisibility(View.INVISIBLE);
                 txtname.setText("Username");
                 credit.setText("Credit: 0");
-                diemcao.setText("Điểm cao nhất: 0");
                 imggoole.setVisibility(View.INVISIBLE);
                 profilePictureView.setVisibility(View.VISIBLE);
                 profilePictureView.setProfileId(null);
@@ -327,7 +323,7 @@ public class MainActivity extends Activity {
 //                btnDangXuat.setVisibility(View.INVISIBLE);
 //                txtname.setText("Username");
 //                credit.setText("Credit: 0");
-//                diemcao.setText("Điểm cao nhất: 0");
+//
 //                imggoole.setVisibility(View.INVISIBLE);
 //                profilePictureView.setVisibility(View.VISIBLE);
 //                profilePictureView.setProfileId(null);
@@ -343,6 +339,41 @@ public class MainActivity extends Activity {
 //
 //    }
 
+<<<<<<< Updated upstream
+=======
+    public void LuuLuotChoi(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if(connectivityManager !=null)
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        String currentDateTime;
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentDateTime = sdf1.format(new Date());
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new LuotChoi() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(s);
+                        if(jsonObject.getBoolean("success"))
+                        {
+//                            Intent intent = new Intent(MainActivity.this, GiaoDienChoiGame.class);
+//                            startActivityForResult(intent, requestcode);
+                            Toast.makeText(MainActivity.this,"Load thành công",Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("luu-luot-choi", "POST", mPref.getString("TOKEN",null),currentDateTime);
+        }
+    }
+>>>>>>> Stashed changes
 
     private void setLogout_Button() {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
@@ -514,8 +545,7 @@ public class MainActivity extends Activity {
                         showAlertDangNhap();
                     }
                 }catch (Exception Ex){
-                    Intent intent = new Intent(MainActivity.this,GiaoDienChoiGame.class);
-                    startActivityForResult(intent,requestcode);
+                   Toast.makeText(MainActivity.this,"Lỗi đăng nhập",Toast.LENGTH_LONG).show();
                 }
             }
         });

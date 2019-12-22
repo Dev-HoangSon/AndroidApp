@@ -47,6 +47,15 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     SharedPreferences sharedPreferences;
     private static final long START_TIME_IN_MILLIS = 30000;
     private MediaPlayer mediaPlayerCauhoi;
+<<<<<<< Updated upstream
+=======
+    private String sharedPrefFile = "com.example.game";
+    private static String token="";
+    private static int SoCau = 0;
+    private static int TongDiem =0;
+
+    SharedPreferences mPref;
+>>>>>>> Stashed changes
     private CountDownTimer countDownTimerTime;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
@@ -77,7 +86,13 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         if (getSupportLoaderManager().getLoader(0) != null) {
             getSupportLoaderManager().initLoader(0, null, this);
         }
+<<<<<<< Updated upstream
 
+=======
+        TongSoMang =mPref.getInt("COHOI",0) - 1;
+        START_TIME_IN_MILLIS =mPref.getInt("THOIGIAN",0)*1000;
+        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+>>>>>>> Stashed changes
         LoadGiaoDien();
         Linh_Vuc_1();
         Linh_Vuc_2();
@@ -409,6 +424,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("A", DapAnDung)) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -458,6 +477,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("B", DapAnDung)) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -507,6 +530,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_D.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("C", DapAnDung)) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -555,6 +582,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         btn_C.setEnabled(false);
                         if (btn_sansang.getVisibility() == View.INVISIBLE) {
                             if (KiemTraDapAn("D", DapAnDung)) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                                 LoadLaiKhiDung();
                                 CountDownTimer countDownTimerchinhxac = new CountDownTimer(1000, 1000) {
                                     @Override
@@ -722,9 +753,15 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         SharedPreferences.Editor editor =sharedPreferences.edit();
         int Rand = random.nextInt(5) + 1;
         int Diem = Integer.valueOf(txt.getText().toString());
+<<<<<<< Updated upstream
         int TongDiem1cau = (Diem * Rand);
         Tongdiem += TongDiem1cau;
         editor.putString("diemso",""+Tongdiem);
+=======
+        int TongDiem1cau = (Diem + 100);
+        Tongdiem += TongDiem1cau;
+        editor.putString("diemso",""+TongDiem1cau);
+>>>>>>> Stashed changes
         editor.commit();
         return Tongdiem;
     }
@@ -1278,9 +1315,10 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     private void XacNhanMua(ImageView imageView, String txt,int Key) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_xacnhan);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Button btn_dog = dialog.findViewById(R.id.btn_dog);
         Button btn_dong_y = dialog.findViewById(R.id.bnt_dog_y);
-        TextView txtienThiGia = dialog.findViewById(R.id.txt_GiaTien);
+        Button txtienThiGia = dialog.findViewById(R.id.txt_GiaTien);
         txtienThiGia.setText("-" + txt + " Điểm");
         btn_dong_y.setOnClickListener(new View.OnClickListener() {
             @Override
