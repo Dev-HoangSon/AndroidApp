@@ -147,4 +147,8 @@ public class ThongTinNguoiChoi extends AppCompatActivity {
         });
     }
 
+    public void moLSCredit(View view) {
+        Intent intent = new Intent(this,LichSuMuaGoiCredit.class);
+        startActivity(intent);
+    }
 }

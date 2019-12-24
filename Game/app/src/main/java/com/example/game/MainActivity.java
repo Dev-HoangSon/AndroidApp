@@ -153,7 +153,10 @@
                     }
                 }
             });
-
+//            SharedPreferences.Editor editor =mPref.edit();
+//            editor.clear();
+//            editor.apply();
+//            token =null;
             if(mPref.getString("TOKEN",null) !=null)
             {
                 token = mPref.getString("TOKEN",null);
@@ -524,7 +527,7 @@
                 public void onClick(View view) {
                     finish();
                     Intent intent = new Intent(MainActivity.this,GiaoDienDangNhap.class);
-                    mediaPlayer.stop();
+                    //mediaPlayer.stop();
                     startActivityForResult(intent,requestcode);
                 }
             });

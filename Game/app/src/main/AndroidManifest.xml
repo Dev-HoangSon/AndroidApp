@@ -63,6 +63,10 @@
         <activity
             android:name=".GiaoDienChoiGame"
             android:screenOrientation="sensorLandscape" />
-    </application>
+        <activity
+            android:parentActivityName=".ThongTinNguoiChoi"
+            android:name=".LichSuMuaGoiCredit"
+            android:screenOrientation="sensorLandscape" />
+        </application>
 
 </manifest>
