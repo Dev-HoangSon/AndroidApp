@@ -647,4 +647,9 @@
             super.onStart();
         }
 
+        public void moBangXepHang(View view) {
+            Intent intent = new Intent(this,BangXepHangNguoiChoi.class);
+            startActivity(intent);
+        }
+
     }

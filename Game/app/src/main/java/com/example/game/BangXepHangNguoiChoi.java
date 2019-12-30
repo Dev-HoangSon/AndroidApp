@@ -2,6 +2,7 @@ package com.example.game;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,25 +20,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class LichSuMuaGoiCredit extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
-    private final ArrayList<LSCredit> mListLSCredit = new ArrayList<>();
+public class BangXepHangNguoiChoi extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+
+    private final ArrayList<NguoiChoi> mListNguoiChoi = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private CreditAdapter mCreditAdapter;
+    private NguoiChoiAdapter mNguoiChoiAdapter;
     private String sharedPrefFile = "com.example.game";
     public static String token;
     SharedPreferences mPref;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_giao_dien_lich_su_mua_credit);
+
+        setContentView(R.layout.activity_giao_dien_xep_hang);
         mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
         token = mPref.getString("TOKEN",null);
+        mRecyclerView = findViewById(R.id.rcv_nguoi_choi);
+        mNguoiChoiAdapter = new NguoiChoiAdapter(this,mListNguoiChoi);
 
-        mRecyclerView = findViewById(R.id.rcv_credit);
-
-        mCreditAdapter = new CreditAdapter(this, mListLSCredit);
-
-        mRecyclerView.setAdapter(mCreditAdapter);
+        mRecyclerView.setAdapter(mNguoiChoiAdapter);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,7 +53,7 @@ public class LichSuMuaGoiCredit extends AppCompatActivity implements LoaderManag
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new LSCreditLoader(this);
+        return new NguoiChoiLoader(this);
     }
 
     @Override
@@ -62,15 +64,16 @@ public class LichSuMuaGoiCredit extends AppCompatActivity implements LoaderManag
         else {
             try {
                 JSONObject jsonObject = new JSONObject(data);
-                JSONArray itemsArray =  jsonObject.getJSONArray("data");
+                JSONArray itemsArray =   jsonObject.getJSONArray("data");
                 for (int i = 0; i < itemsArray.length(); i++) {
-                    String thoiGian = itemsArray.getJSONObject(i).getString("created_at");
-                    int tenGoi = itemsArray.getJSONObject(i).getInt("goi_credit_id");
-                    int soTien = itemsArray.getJSONObject(i).getInt("so_tien");
-                    int credit = itemsArray.getJSONObject(i).getInt("credit");
-                    this.mListLSCredit.add(new LSCredit(tenGoi,credit, soTien,thoiGian));
+                    int id = itemsArray.getJSONObject(i).getInt("id");
+                    String tenDangNhap = itemsArray.getJSONObject(i).getString("ten_dang_nhap");
+                    int diemCaoNhat = itemsArray.getJSONObject(i).getInt("diem_cao_nhat");
+                    mListNguoiChoi.add(new NguoiChoi(id,tenDangNhap,diemCaoNhat));
+                   // Log.d("So luong i", String.valueOf(itemsArray.length())); //test
                 }
-                this.mCreditAdapter.notifyDataSetChanged();
+
+                mNguoiChoiAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
                 e.printStackTrace();

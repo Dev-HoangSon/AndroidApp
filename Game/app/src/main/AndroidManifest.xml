@@ -67,6 +67,11 @@
             android:parentActivityName=".ThongTinNguoiChoi"
             android:name=".LichSuMuaGoiCredit"
             android:screenOrientation="sensorLandscape" />
+
+        <activity
+            android:parentActivityName=".MainActivity"
+            android:name=".BangXepHangNguoiChoi"
+            android:screenOrientation="sensorLandscape" />
         </application>
 
 </manifest>

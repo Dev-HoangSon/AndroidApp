@@ -154,6 +154,7 @@
         android:layout_width="158dp"
         android:layout_height="135dp"
         android:layout_marginStart="24dp"
+        android:onClick="moBangXepHang"
         android:src="@drawable/icon_bangxephang"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
