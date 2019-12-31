@@ -72,6 +72,10 @@
             android:parentActivityName=".MainActivity"
             android:name=".BangXepHangNguoiChoi"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:parentActivityName=".MainActivity"
+            android:name=".LichSuChoi"
+            android:screenOrientation="sensorLandscape" />
         </application>
 
 </manifest>

@@ -122,7 +122,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         jsonObject = new JSONObject(s);
                         if(jsonObject.getBoolean("success"))
                         {
-
+                            CapNhatLuotChoi();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -155,7 +155,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
                         e.printStackTrace();
                     }
                 }
-            }.execute("cap-nhat-luot-choi", "POST", mPref.getString("TOKEN",null), TongDiem+"",SoCau+"");
+            }.execute("cap-nhat-luot-choi", "POST", mPref.getString("TOKEN",null), Tongdiem+"",SoCau+"");
         }
     }
 
@@ -1490,12 +1490,16 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
 
     public void TrangChu(View view) {
         finish();
+        Tongdiem = 0;
+        SoCau=0;
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 
     public void ChoiLai(View view) {
         finish();
+        Tongdiem = 0;
+        SoCau=0;
         Intent intent = new Intent(this,GiaoDienChoiGame.class);
         startActivity(intent);
     }

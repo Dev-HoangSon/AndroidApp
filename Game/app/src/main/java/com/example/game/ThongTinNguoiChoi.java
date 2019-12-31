@@ -151,4 +151,9 @@ public class ThongTinNguoiChoi extends AppCompatActivity {
         Intent intent = new Intent(this,LichSuMuaGoiCredit.class);
         startActivity(intent);
     }
+
+    public void moLSChoi(View view) {
+        Intent intent = new Intent(this,LichSuChoi.class);
+        startActivity(intent);
+    }
 }
