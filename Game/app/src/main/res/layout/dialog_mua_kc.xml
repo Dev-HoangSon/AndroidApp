@@ -119,7 +119,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/reward_datbiet"
-        android:text="Nạp kim cương"
+        android:text="Mua Credit"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textStyle="bold"

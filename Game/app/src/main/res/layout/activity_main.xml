@@ -215,10 +215,9 @@
         android:id="@+id/img_led"
         android:layout_width="521dp"
         android:layout_height="236dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="52dp"
         android:src="@drawable/icon_led"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -232,5 +231,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_xoay" />
 
+    <ImageView
+        android:id="@+id/img_cua_hang"
+        android:layout_width="66dp"
+        android:layout_height="81dp"
+        android:onClick="Muacredit"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/icon_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewgoogle"
+        android:src="@drawable/icon_shop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

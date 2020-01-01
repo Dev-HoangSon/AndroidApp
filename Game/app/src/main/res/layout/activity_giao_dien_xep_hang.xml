@@ -45,6 +45,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/reward"
         android:text="Đóng"
+        android:onClick="Dong"
         android:textAllCaps="false"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

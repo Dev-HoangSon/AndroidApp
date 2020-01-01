@@ -64,6 +64,7 @@
     import java.security.MessageDigest;
     import java.security.NoSuchAlgorithmException;
     import java.text.SimpleDateFormat;
+    import java.util.ArrayList;
     import java.util.Arrays;
     import java.util.Date;
 
@@ -71,14 +72,15 @@
     public class MainActivity extends Activity {
 
 
-
+        public static final int TEXT_REQUEST = 1;
         private Object NameNotFoundException;
         ProfilePictureView profilePictureView;
         private Dialog dialog;
         LoginButton loginButton;
         SignInButton btndangnhapgoole;
         private String sharedPrefFile = "com.example.game";
-        private static String token="";
+        public static String token="";
+        public static int creditHienTai;
         SharedPreferences mPref;
         CallbackManager callbackManager;
         GoogleSignInClient mGoogleSignInClient;
@@ -87,6 +89,8 @@
         Bitmap bitmap;
         Button txtname, credit;
         Button btndangnhap,btnDangXuat,btnchoingay, btnthongtin;
+        Button btn_kc_200, btn_kc_400, btn_kc_800, btn_kc_1500, btn_kc_2500, btn_kc_5000 ;
+        public static ArrayList<GoiGredit> goiGreditArrayList = new ArrayList<>();
         ImageButton btn_volume_on , icon_share;
         ImageView img_led, img_bangxephang ,hinhanh , imggoole ,img_xoay;
         boolean Amthanh = true;
@@ -192,6 +196,7 @@
                             jsonObject = new JSONObject(s);
                             txtname.setText("Xin chào " + jsonObject.getString("ten_dang_nhap"));
                             credit.setText("Credit: " + jsonObject.getString("credit"));
+                            creditHienTai = Integer.parseInt(jsonObject.getString("credit"));
                             txtImg = jsonObject.getString("hinh_dai_dien");
                             profilePictureView.setVisibility(View.INVISIBLE);
                             imggoole.setVisibility(View.VISIBLE);
@@ -200,7 +205,7 @@
                             e.printStackTrace();
                         }
                     }
-                }.execute("user-info", "GET", mPref.getString("TOKEN",null));
+                }.execute("user-info", "GET", token);
             }
         }
 
@@ -603,6 +608,13 @@
                     e.printStackTrace();
                 }
             }
+            if (requestCode == TEXT_REQUEST) {
+                if (resultCode == RESULT_OK) {
+                    String reply = data.getStringExtra(MuaCredit.EXTRA_REPLY);
+                    credit.setText(reply);
+                    credit.setVisibility(View.VISIBLE);
+                }
+            }
             if (requestCode == RC_SIGN_IN) {
                 // The Task returned from this call is always completed, no need to attach
                 // a listener.
@@ -648,8 +660,26 @@
         }
 
         public void moBangXepHang(View view) {
-            Intent intent = new Intent(this,BangXepHangNguoiChoi.class);
-            startActivity(intent);
+            if(mPref.getString("TOKEN",null) !=null || btndangnhap.getVisibility() == View.INVISIBLE) {
+                Intent intent = new Intent(this,BangXepHangNguoiChoi.class);
+                startActivity(intent);
+            }
+            else {
+                showAlertDangNhap();
+            }
         }
 
+        public void layGoiCredit(){
+
+        }
+
+        public void Muacredit(View view) {
+            if(mPref.getString("TOKEN",null) !=null || btndangnhap.getVisibility() == View.INVISIBLE) {
+                Intent intent = new Intent(this,MuaCredit.class);
+                startActivityForResult(intent, TEXT_REQUEST);
+            }
+            else {
+                showAlertDangNhap();
+            }
+        }
     }
