@@ -56,7 +56,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     long START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
     ImageView img_xoay, img5050, img_ykienkhangia, img_GoiNguoithan, img_tuvantaicho;
-    ImageView img_nagluot_mua, img5050_mua, img_ykienkhangia_mua, img_GoiNguoithan_mua, img_tuvantaicho_mua;
+    ImageView img_nagluot_mua, img5050_mua, img_ykienkhangia_mua, img_GoiNguoithan_mua, img_tuvantaicho_mua,img_doicauhoi;
     ImageView img_mang1, img_mang2, img_mang3, img_mang4, img_mang5, img_cua_hang;
     Button btn_A, btn_B, btn_C, btn_D, btn_sansang, btn_noidungcauhoi, btn_diem_so,btn_kimcuong;
     Button btn_lv_1, btn_lv_2, btn_lv_3, btn_lv_4;
@@ -100,6 +100,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
         HoiyKienKhanGia();
         GoiDienNguoiThan();
         TuVanTaiCho();
+        DoiCauHoi();
         CuaHang();
         Mua_Kc();
 
@@ -165,6 +166,7 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
     }
 
     public void LoadGiaoDien() {
+        img_doicauhoi = findViewById(R.id.img_doicauhoi);
         btn_kimcuong = findViewById(R.id.btn_kimcuong);
         img_cua_hang = findViewById(R.id.img_cua_hang);
         btn_lv_1 = findViewById(R.id.btn_lv_1);
@@ -1076,6 +1078,27 @@ public class GiaoDienChoiGame extends AppCompatActivity implements LoaderManager
             }
         });
         dialog.show();
+    }
+
+    private void DoiCauHoi(){
+        img_doicauhoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayerCauhoi.stop();
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = null;
+                if(connectivityManager !=null){
+                    networkInfo = connectivityManager.getActiveNetworkInfo();
+                }
+                if(networkInfo !=null && networkInfo.isConnected()){
+//
+                    getSupportLoaderManager().restartLoader(0, null, GiaoDienChoiGame.this);
+                }else{
+                    Toast.makeText(GiaoDienChoiGame.this,"Lỗi Internet",Toast.LENGTH_LONG).show();
+                }
+                img_doicauhoi.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void TuVanTaiCho() {
