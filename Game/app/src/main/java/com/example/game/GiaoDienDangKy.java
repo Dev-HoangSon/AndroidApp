@@ -6,15 +6,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -76,13 +80,8 @@ public class GiaoDienDangKy extends Activity {
 
                 if(taikhoan.length() > 0 && taikhoan.length() <= 12 && matkhau.length()>0 &&nhaplaimatkhau.length()>0 && email.length()> 0){
                     if(matkhau.equals(nhaplaimatkhau)){
-                        if(bitmap == null){
-                            Toast.makeText(GiaoDienDangKy.this,"Chưa có ảnh đại diện",Toast.LENGTH_LONG).show();
-                        }else{
                             File file = new File(path);
                             String file_path = file.getAbsolutePath();
-
-
                             String[] mangtenfile = file_path.split("\\.");
                             file_path = mangtenfile[0]+System.currentTimeMillis() + "."+mangtenfile[1];
                             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
@@ -121,7 +120,6 @@ public class GiaoDienDangKy extends Activity {
                                     Log.d("AAA",t.getMessage());
                                 }
                             });
-                        }
 
                     }else{
                         Toast.makeText(GiaoDienDangKy.this,"Mật khẩu không giống nhau",Toast.LENGTH_LONG).show();
@@ -184,7 +182,6 @@ public class GiaoDienDangKy extends Activity {
                 Toast.makeText(this, "Thất bại", Toast.LENGTH_LONG).show();
             }
         }
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -22,6 +22,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
 
+
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
@@ -37,22 +38,60 @@
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <EditText
-        android:id="@+id/passwword"
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_passwword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/custom_tetview_dangnhap"
-        android:drawableRight="@drawable/icon_eye"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword"
-        android:padding="16dp"
-        android:textColor="#F3F1F7"
-        android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/username"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        tools:ignore="MissingConstraints"
+        app:passwordToggleEnabled="true"
+        app:hintEnabled="false"
+        app:passwordToggleTint="@color/login_from_details"
+        >
+
+        <EditText
+            android:id="@+id/passwword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_tetview_dangnhap"
+            android:drawableRight="@drawable/icon_eye"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="#F9F8FC"
+            android:textColorHint="@color/login_from_details"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/layout_passwword"></EditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/custom_dangnhap"
+        android:text="Đăng nhập"
+        android:textSize="24dp"
+        android:onClick="dangNhap"
+        android:textAllCaps="false"
+        android:textColor="@color/login_from_details_medium"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/nhomatkhau"></Button>
 
     <Button
         android:id="@+id/button"
@@ -83,6 +122,21 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/button"></TextView>
+
+
+    <TextView
+        android:id="@+id/doimatkhau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Đổi mật khẩu"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textColor="@color/login_from_details"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/or"></TextView>
 
     <View
         android:id="@+id/footer_line"
@@ -128,7 +182,7 @@
         android:id="@+id/or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:text="or"
         android:textColor="@color/login_from_details"
         android:textSize="16sp"
@@ -148,7 +202,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/passwword" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_passwword" />
 
     <TextView
         android:id="@+id/textView3"

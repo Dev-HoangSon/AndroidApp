@@ -38,39 +38,77 @@
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/img" />
 
-    <EditText
-        android:id="@+id/passwword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_passwword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/custom_tetview_dangnhap"
-        android:drawableRight="@drawable/icon_eye"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword"
-        android:padding="16dp"
-        android:textColor="#F9F8FC"
-        android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/username"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        tools:ignore="MissingConstraints"
+        app:passwordToggleEnabled="true"
 
-    <EditText
-        android:id="@+id/nhaplaimatkhau"
+        app:hintEnabled="false"
+        app:passwordToggleTint="@color/login_from_details"
+        >
+
+        <EditText
+            android:id="@+id/passwword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_tetview_dangnhap"
+            android:drawableRight="@drawable/icon_eye"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="#F9F8FC"
+            android:textColorHint="@color/login_from_details"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/username"></EditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_nhaplaimatkhau"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/custom_tetview_dangnhap"
-        android:drawableRight="@drawable/icon_eye"
-        android:hint="Nhập lại mật khẩu"
-        android:inputType="textPassword"
-        android:padding="16dp"
-        android:textColor="#F9F8FC"
-        android:textColorHint="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/passwword"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/layout_passwword"
+        tools:ignore="MissingConstraints"
+        app:passwordToggleEnabled="true"
+
+        app:hintEnabled="false"
+        app:passwordToggleTint="@color/login_from_details"
+        >
+        <EditText
+            android:id="@+id/nhaplaimatkhau"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_tetview_dangnhap"
+            android:drawableRight="@drawable/icon_eye"
+            android:hint="Nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="#F9F8FC"
+            android:textColorHint="@color/login_from_details"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/layout_passwword"></EditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
     <Button
         android:id="@+id/btndangky"
@@ -154,7 +192,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/nhaplaimatkhau" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_nhaplaimatkhau" />
 
     <TextView
         android:id="@+id/textView3"

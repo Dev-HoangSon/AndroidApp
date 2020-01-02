@@ -24,7 +24,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_lschoi"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="264dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp" />
         </LinearLayout>
@@ -32,18 +32,19 @@
 
     <Button
         android:id="@+id/btn_dong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/reward"
-        android:text="Đóng"
+        android:gravity="center"
         android:onClick="Dong"
+        android:text="Đóng"
         android:textAllCaps="false"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/textView_title"
@@ -51,22 +52,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:layout_marginStart="216dp"
         android:layout_marginTop="16dp"
-        android:text="LỊCH SỬ MUA CHƠI"
+        android:gravity="center"
+        android:text="LỊCH SỬ NGƯỜI CHƠI"
+        android:textStyle="bold"
         android:textColor="#fff"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/thoigian_textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/thoigian_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Thời Gian"
+        android:text="Thời gian"
         android:textColor="#FCF8F8"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"

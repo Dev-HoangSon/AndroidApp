@@ -195,7 +195,11 @@
                             txtImg = jsonObject.getString("hinh_dai_dien");
                             profilePictureView.setVisibility(View.INVISIBLE);
                             imggoole.setVisibility(View.VISIBLE);
-                            Picasso.get().load("http://10.0.2.2:8000/storage/"+txtImg).into(imggoole);
+                            if(txtImg.length() > 4){
+                                Picasso.get().load("http://10.0.2.2:8000/storage/"+txtImg).into(imggoole);
+                            }else{
+                                imggoole.setImageResource(R.drawable.default_avt);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
