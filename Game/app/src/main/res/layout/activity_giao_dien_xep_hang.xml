@@ -25,25 +25,23 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv-nguoi-choi"
+                android:id="@+id/rcv_nguoi_choi"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="264dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/btn_dong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/reward"
+        android:gravity="center"
         android:text="Đóng"
         android:onClick="Dong"
         android:textAllCaps="false"
@@ -58,9 +56,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:text="BẢNG XẾP HẠNG"
         android:textColor="#fff"
         android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -95,9 +95,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="TÊN NGƯỜI CHƠI"
+        android:text="Tên người chơi"
         android:textColor="#ffffff"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="ĐIỂM"
+        android:text="Điểm"
         android:textColor="#ffffff"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/tengoi_textView"

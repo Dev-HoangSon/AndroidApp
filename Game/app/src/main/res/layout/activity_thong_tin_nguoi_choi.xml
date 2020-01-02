@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img" />
 
     <Button
-        android:id="@+id/btndangky"
+        android:id="@+id/btn_chinhsua"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -101,7 +101,7 @@
         android:textColor="@color/login_from_details"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/btndangky"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/btn_chinhsua"></TextView>
 
     <View
         android:id="@+id/footer_line"

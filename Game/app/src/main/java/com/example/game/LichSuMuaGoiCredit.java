@@ -35,7 +35,7 @@ public class LichSuMuaGoiCredit extends AppCompatActivity implements LoaderManag
 
         mRecyclerView = findViewById(R.id.rcv_credit);
 
-        mCreditAdapter = new CreditAdapter(this, mListLSCredit);
+        mCreditAdapter = new CreditAdapter(this,mListLSCredit);
 
         mRecyclerView.setAdapter(mCreditAdapter);
 

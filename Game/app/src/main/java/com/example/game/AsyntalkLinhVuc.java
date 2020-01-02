@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class AsyntalkLinhVuc extends AsyncTask<String , Void , String> {
+public class    AsyntalkLinhVuc extends AsyncTask<String , Void , String> {
 
     Button btn1;
     Button btn2;

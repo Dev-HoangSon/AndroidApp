@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class BangXepHangNguoiChoi extends AppCompatActivity implements LoaderMan
     private NguoiChoiAdapter mNguoiChoiAdapter;
     private String sharedPrefFile = "com.example.game";
     public static String token;
+    Button btn_dong;
     SharedPreferences mPref;
 
     @Override
@@ -37,6 +39,7 @@ public class BangXepHangNguoiChoi extends AppCompatActivity implements LoaderMan
         mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
         token = mPref.getString("TOKEN",null);
         mRecyclerView = findViewById(R.id.rcv_nguoi_choi);
+        btn_dong = findViewById(R.id.btn_dong);
         mNguoiChoiAdapter = new NguoiChoiAdapter(this,mListNguoiChoi);
 
         mRecyclerView.setAdapter(mNguoiChoiAdapter);
@@ -48,6 +51,13 @@ public class BangXepHangNguoiChoi extends AppCompatActivity implements LoaderMan
             getSupportLoaderManager().initLoader(0,null,this);
         }
         getSupportLoaderManager().restartLoader(0,null,this);
+
+        btn_dong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @NonNull
@@ -70,11 +80,8 @@ public class BangXepHangNguoiChoi extends AppCompatActivity implements LoaderMan
                     String tenDangNhap = itemsArray.getJSONObject(i).getString("ten_dang_nhap");
                     int diemCaoNhat = itemsArray.getJSONObject(i).getInt("diem_cao_nhat");
                     mListNguoiChoi.add(new NguoiChoi(id,tenDangNhap,diemCaoNhat));
-                   // Log.d("So luong i", String.valueOf(itemsArray.length())); //test
                 }
-
                 mNguoiChoiAdapter.notifyDataSetChanged();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -119,6 +119,16 @@
         app:layout_constraintTop_toBottomOf="@+id/img_goinguoithan" />
 
     <ImageView
+        android:id="@+id/img_doicauhoi"
+        android:layout_width="66dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/doicauhoi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_tuvantaicho" />
+
+    <ImageView
         android:id="@+id/img_goinguoithan"
         android:layout_width="66dp"
         android:layout_height="81dp"
@@ -232,7 +242,7 @@
         android:id="@+id/img_5050"
         android:layout_width="66dp"
         android:layout_height="81dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:src="@drawable/help_5050"
         app:layout_constraintEnd_toEndOf="parent"

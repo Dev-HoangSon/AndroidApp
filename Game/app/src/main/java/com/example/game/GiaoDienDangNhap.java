@@ -1,6 +1,7 @@
 package com.example.game;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +22,7 @@ public class GiaoDienDangNhap extends Activity {
     private SharedPreferences mPref;
     private String sharedPrefFile = "com.example.game";
     private String token ="";
-    TextView txtDangKy;
-
+    TextView txtDangKy,quenmatkhau,doimatkhau;
     EditText txtTenDN, txtMatKhau;
 
     @Override
@@ -30,7 +31,11 @@ public class GiaoDienDangNhap extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_giao_dien_dang_nhap);
         txtDangKy = findViewById(R.id.txtDangKy);
+        quenmatkhau = findViewById(R.id.quenmatkhau);
+        doimatkhau = findViewById(R.id.doimatkhau);
         DangKy();
+        QuenMatKhau();
+        DoiMatKhau();
         txtTenDN = findViewById(R.id.username);
         txtMatKhau = findViewById(R.id.passwword);
         mPref = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
@@ -92,5 +97,66 @@ public class GiaoDienDangNhap extends Activity {
             }.execute("dang-nhap","POST",txtTenDN.getText().toString(),txtMatKhau.getText().toString());
         }
 
+    }
+    void QuenMatKhau(){
+        quenmatkhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(GiaoDienDangNhap.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setContentView(R.layout.custom_dialog_quenmatkhau);
+                Button btn_dong_y = dialog.findViewById(R.id.btn_dialog_dongy);
+                Button btn_dong = dialog.findViewById(R.id.btn_dialog_dong);
+
+                btn_dong_y.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                btn_dong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+            }
+        });
+    }
+
+    void DoiMatKhau(){
+        doimatkhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(GiaoDienDangNhap.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setContentView(R.layout.custom_dialog_doimatkhau);
+                Button btn_dong_y = dialog.findViewById(R.id.btn_dialog_dongy);
+                Button btn_dong = dialog.findViewById(R.id.btn_dialog_dong);
+
+                btn_dong_y.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                btn_dong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+            }
+        });
     }
 }
